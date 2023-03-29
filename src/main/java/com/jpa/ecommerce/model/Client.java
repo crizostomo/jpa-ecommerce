@@ -6,22 +6,15 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.math.BigDecimal;
-import java.util.Objects;
-
-@Entity
 @Getter
 @Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Product {
+@Entity
+public class Client {
 
-    @Id
     @EqualsAndHashCode.Include
+    @Id
     private Integer id;
 
-    private String name;
-
-    private String description;
-
-    private BigDecimal price;
+    private String nome;
 }
