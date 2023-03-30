@@ -6,17 +6,26 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-public class Client {
+public class Order {
 
     @EqualsAndHashCode.Include
     @Id
     private Integer id;
 
-    private String nome;
+    private LocalDateTime orderDate;
 
-    private Gender gender;
+    private LocalDateTime endDate;
+
+    private Integer invoiceId;
+
+    private BigDecimal total;
+
+    private OrderStatus status;
 }
