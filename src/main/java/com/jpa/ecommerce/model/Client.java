@@ -1,8 +1,6 @@
 package com.jpa.ecommerce.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,7 +16,8 @@ public class Client {
     @Id
     private Integer id;
 
-    private String nome;
+    private String name;
 
+    @Enumerated(EnumType.STRING)
     private Gender gender;
 }
