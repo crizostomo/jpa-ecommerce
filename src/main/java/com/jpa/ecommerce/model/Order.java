@@ -32,4 +32,7 @@ public class Order {
 
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
+
+    @Embedded
+    private DeliveryAddress deliveryAddress;
 }
