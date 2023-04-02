@@ -20,6 +20,10 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @ManyToOne
+    @JoinColumn(name = "client_id") // We do not need since the attribute client will join the attribute id
+    private Client client;
+
     @Column(name = "order_date")
     private LocalDateTime orderDate;
 
