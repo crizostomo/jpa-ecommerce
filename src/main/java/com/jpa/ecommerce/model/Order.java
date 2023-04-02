@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -40,4 +41,7 @@ public class Order {
 
     @Embedded
     private DeliveryAddress deliveryAddress;
+
+    @OneToMany(mappedBy = "order")
+    private List<OrderItem> orderItems;
 }
