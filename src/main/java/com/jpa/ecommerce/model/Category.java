@@ -5,6 +5,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
@@ -17,8 +19,12 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String nome;
+    private String name;
 
-    @Column(name = "father_category_id")
-    private Integer fatherCategoryId;
+    @ManyToOne
+    @JoinColumn(name = "father_category_id")
+    private Category fatherCategory;
+
+    @OneToMany(mappedBy = "fatherCategory")
+    private List<Category> categories;
 }
