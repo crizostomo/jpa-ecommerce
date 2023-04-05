@@ -1,4 +1,4 @@
-package com.jpa.ecommerce.relations;
+package com.jpa.ecommerce.relationships;
 
 import com.jpa.ecommerce.EntityManagerTest;
 import com.jpa.ecommerce.model.Client;
@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-public class RelationManyToOneTest extends EntityManagerTest {
+public class RelationshipManyToOneTest extends EntityManagerTest {
 
     @Test
     public void verifyRelation() {

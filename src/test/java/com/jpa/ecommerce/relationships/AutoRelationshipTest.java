@@ -1,11 +1,11 @@
-package com.jpa.ecommerce.relations;
+package com.jpa.ecommerce.relationships;
 
 import com.jpa.ecommerce.EntityManagerTest;
 import com.jpa.ecommerce.model.Category;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
-public class AutoRelationTest extends EntityManagerTest {
+public class AutoRelationshipTest extends EntityManagerTest {
 
     @Test
     public void verifyRelation() {
