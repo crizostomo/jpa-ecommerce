@@ -44,4 +44,10 @@ public class Order {
 
     @OneToMany(mappedBy = "order")
     private List<OrderItem> orderItems;
+
+    @OneToOne(mappedBy = "order")
+    private CardPayment payment;
+
+    @OneToOne(mappedBy = "order")
+    private Invoice invoice;
 }
