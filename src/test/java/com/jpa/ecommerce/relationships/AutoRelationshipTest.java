@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 public class AutoRelationshipTest extends EntityManagerTest {
 
     @Test
-    public void verifyRelation() {
+    public void verifyRelationship() {
         Category fatherCategory = new Category();
         fatherCategory.setName("Electronics");
 

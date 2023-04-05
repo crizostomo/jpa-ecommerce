@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 public class RelationshipManyToOneTest extends EntityManagerTest {
 
     @Test
-    public void verifyRelation() {
+    public void verifyRelationship() {
         Client client = entityManager.find(Client.class, 1);
 
         Order order = new Order();
