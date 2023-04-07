@@ -1,8 +1,12 @@
 package com.jpa.ecommerce.model;
 
 import jakarta.persistence.Embeddable;
+import lombok.Getter;
+import lombok.Setter;
 
 @Embeddable
+@Getter
+@Setter
 public class DeliveryAddress {
 
     private String zipCode;

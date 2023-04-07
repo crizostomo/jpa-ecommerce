@@ -35,4 +35,7 @@ public class Product {
             joinColumns = @JoinColumn(name = "product_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id"))
     private List<Category> categories;
+
+    @OneToMany(mappedBy = "product")
+    private Stock stock;
 }
