@@ -25,11 +25,14 @@ public class Order {
     @JoinColumn(name = "client_id") // We do not need since the attribute client will join the attribute id
     private Client client;
 
-    @Column(name = "order_date")
-    private LocalDateTime orderDate;
+    @Column(name = "creation_date")
+    private LocalDateTime creationDate;
 
-    @Column(name = "end_date")
-    private LocalDateTime endDate;
+    @Column(name = "last_update_date")
+    private LocalDateTime lastUpdateDate;
+
+    @Column(name = "ending_date")
+    private LocalDateTime endingDate;
 
     @Column(name = "invoice_id")
     private Integer invoiceId;
@@ -50,4 +53,23 @@ public class Order {
 
     @OneToOne(mappedBy = "order")
     private Invoice invoice;
+
+    @PrePersist
+    public void onPersisting() {
+        creationDate = LocalDateTime.now();
+        calculateTotal();
+    }
+
+    @PreUpdate
+    public void onUpdating() {
+        lastUpdateDate = LocalDateTime.now();
+        calculateTotal();
+    }
+
+    public void calculateTotal() {
+        if (orderItems != null) {
+            total = orderItems.stream().map(OrderItem::getProductPrice)
+                    .reduce(BigDecimal.ZERO, BigDecimal::add);
+        }
+    }
 }

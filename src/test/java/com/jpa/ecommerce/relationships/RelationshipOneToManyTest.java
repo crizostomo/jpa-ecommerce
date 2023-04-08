@@ -18,7 +18,7 @@ public class RelationshipOneToManyTest extends EntityManagerTest {
 
         Order order = new Order();
         order.setStatus(OrderStatus.WAITING);
-        order.setOrderDate(LocalDateTime.now());
+        order.setCreationDate(LocalDateTime.now());
         order.setClient(client);
         order.setTotal(BigDecimal.TEN);
 
