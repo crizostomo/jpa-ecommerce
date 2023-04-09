@@ -21,9 +21,21 @@ public class Client {
 
     private String name;
 
+    @Transient
+    private String firstName;
+
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
     @OneToMany(mappedBy = "client")
     private List<Order> orders;
+
+    public void showFirstName() {
+        if (name != null && !name.isBlank()) {
+            int index = name.indexOf(" ");
+            if (index > -1) {
+                firstName = name.substring(0, index);
+            }
+        }
+    }
 }
