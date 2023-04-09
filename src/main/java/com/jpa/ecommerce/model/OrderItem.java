@@ -14,10 +14,8 @@ import java.math.BigDecimal;
 @Table(name = "order_item")
 public class OrderItem {
 
-    @EqualsAndHashCode.Include
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @EmbeddedId
+    private OrderItemId id;
 
     @ManyToOne
     @JoinColumn(name = "order_id")
