@@ -2,11 +2,13 @@ package com.jpa.ecommerce.advancedmapping;
 
 import com.jpa.ecommerce.EntityManagerTest;
 import com.jpa.ecommerce.model.Attribute;
+import com.jpa.ecommerce.model.Client;
 import com.jpa.ecommerce.model.Product;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 public class ElementCollectionTest extends EntityManagerTest {
 
@@ -38,5 +40,20 @@ public class ElementCollectionTest extends EntityManagerTest {
 
         Product productVerification = entityManager.find(Product.class, product.getId());
         Assert.assertFalse(productVerification.getAttributes().isEmpty());
+    }
+
+    @Test
+    public void applyingContactMap() {
+        entityManager.getTransaction().begin();
+
+        Client client = entityManager.find(Client.class, 1);
+        client.setContact(Collections.singletonMap("email", "roronoa@onepiece.com"));
+
+        entityManager.getTransaction().commit();
+
+        entityManager.clear();
+
+        Client clientVerification = entityManager.find(Client.class, client.getId());
+        Assert.assertEquals("roronoa@onepiece.com", clientVerification.getContact().get("email"));
     }
 }
