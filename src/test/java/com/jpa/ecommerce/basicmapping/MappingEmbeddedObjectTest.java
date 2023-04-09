@@ -26,7 +26,7 @@ public class MappingEmbeddedObjectTest extends EntityManagerTest {
         address.setState("New Jersey");
 
         Order order = new Order();
-        order.setOrderDate(LocalDateTime.now());
+        order.setCreationDate(LocalDateTime.now());
         order.setStatus(OrderStatus.WAITING);
         order.setTotal(new BigDecimal(1000));
         order.setDeliveryAddress(address);
