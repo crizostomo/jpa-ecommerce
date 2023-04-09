@@ -1,5 +1,6 @@
 package com.jpa.ecommerce.model;
 
+import com.jpa.ecommerce.listener.CreateInvoiceListener;
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -13,6 +14,7 @@ import java.util.List;
 @Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
+@EntityListeners({CreateInvoiceListener.class})
 @Table(name = "order")
 public class Order {
 
@@ -71,5 +73,9 @@ public class Order {
             total = orderItems.stream().map(OrderItem::getProductPrice)
                     .reduce(BigDecimal.ZERO, BigDecimal::add);
         }
+    }
+
+    public boolean isPaid() {
+        return OrderStatus.PAID.equals(status);
     }
 }
