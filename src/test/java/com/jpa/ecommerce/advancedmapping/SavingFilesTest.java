@@ -3,6 +3,7 @@ package com.jpa.ecommerce.advancedmapping;
 import com.jpa.ecommerce.EntityManagerTest;
 import com.jpa.ecommerce.model.Invoice;
 import com.jpa.ecommerce.model.Order;
+import com.jpa.ecommerce.model.Product;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -28,6 +29,8 @@ public class SavingFilesTest extends EntityManagerTest {
         entityManager.persist(invoice);
         entityManager.getTransaction().commit();
 
+        entityManager.clear();
+
         Invoice invoiceVerification = entityManager.find(Invoice.class, invoice.getId());
         Assert.assertNotNull(invoiceVerification.getXml());
         Assert.assertTrue(invoiceVerification.getXml().length > 0);
@@ -44,12 +47,33 @@ public class SavingFilesTest extends EntityManagerTest {
 //        */
     }
 
-    private static byte[] loadInvoice() {
+    @Test
+    public void saveProductPhoto() {
+        entityManager.getTransaction().begin();
+        Product product = entityManager.find(Product.class, 1);
+        product.setPhoto(loadPhoto());
+        entityManager.getTransaction().commit();
+
+        entityManager.clear();
+
+        Product productVerification = entityManager.find(Product.class, 1);
+        Assert.assertNotNull(productVerification.getPhoto());
+        Assert.assertTrue(productVerification.getPhoto().length > 0);
+    }
+
+    private static byte[] loadFile(String name) {
         try {
-            return SavingFilesTest.class.getResourceAsStream(
-                    "/invoice.xml").readAllBytes();
+            return SavingFilesTest.class.getResourceAsStream(name).readAllBytes();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private static byte[] loadPhoto() {
+        return loadFile("/kindle.jpg");
+    }
+
+    private static byte[] loadInvoice() {
+        return loadFile("/invoice.xml");
     }
 }

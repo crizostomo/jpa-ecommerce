@@ -56,4 +56,7 @@ public class Product {
     @CollectionTable(name = "product_attribute",
             joinColumns = @JoinColumn(name = "product_id"))
     private List<Attribute> attributes;
+
+    @Lob // Lob = Large Object
+    private byte[] photo;
 }
