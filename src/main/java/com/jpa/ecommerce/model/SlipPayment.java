@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-//@DiscriminatorValue("slip")
+@DiscriminatorValue("slip")
 @Table(name = "slip_payment")
 public class SlipPayment extends Payment {
 
