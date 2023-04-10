@@ -9,15 +9,8 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "card_payment")
-public class CardPayment extends IntegerBaseEntity {
+public class CardPayment extends Payment {
 
-    @MapsId
-    @OneToOne(optional = false)
-    @JoinColumn(name = "order_id")
-    private Order order;
-
-    @Enumerated(EnumType.STRING)
-    private PaymentStatus status;
-
-    private String number;
+    @Column(name = "card_number")
+    private String cardNumber;
 }

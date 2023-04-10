@@ -9,13 +9,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "slip_payment")
-public class SlipPayment extends IntegerBaseEntity {
-
-    @Column(name = "order_id")
-    private Integer orderId;
-
-    @Enumerated(EnumType.STRING)
-    private PaymentStatus status;
+public class SlipPayment extends Payment {
 
     private String barcode;
 }
