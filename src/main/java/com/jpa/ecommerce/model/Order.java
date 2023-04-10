@@ -12,16 +12,10 @@ import java.util.List;
 
 @Getter
 @Setter
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @EntityListeners({CreateInvoiceListener.class})
 @Table(name = "order")
-public class Order {
-
-    @EqualsAndHashCode.Include
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+public class Order extends IntegerBaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "client_id") // We do not need since the attribute client will join the attribute id

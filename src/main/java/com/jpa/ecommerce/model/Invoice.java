@@ -9,16 +9,9 @@ import java.util.Date;
 
 @Getter
 @Setter
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @Table(name = "invoice")
-public class Invoice {
-
-    @EqualsAndHashCode.Include
-    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "order_id")
-    private Integer id;
+public class Invoice extends IntegerBaseEntity {
 
     @MapsId
     @OneToOne

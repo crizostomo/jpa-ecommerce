@@ -7,15 +7,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @Table(name = "slip_payment")
-public class SlipPayment {
-
-    @EqualsAndHashCode.Include
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+public class SlipPayment extends IntegerBaseEntity {
 
     @Column(name = "order_id")
     private Integer orderId;
