@@ -8,7 +8,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "slip_payment")
+@DiscriminatorValue("slip")
+//@Table(name = "slip_payment")
 public class SlipPayment extends Payment {
 
     private String barcode;
