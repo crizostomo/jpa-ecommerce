@@ -1,7 +1,6 @@
 package com.jpa.ecommerce.model;
 
 import jakarta.persistence.*;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 

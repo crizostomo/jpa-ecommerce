@@ -1,7 +1,6 @@
 package com.jpa.ecommerce.model;
 
 import jakarta.persistence.*;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,7 +9,8 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name = "category")
+@Table(name = "category",
+        uniqueConstraints = {@UniqueConstraint(name = "unq_name", columnNames = {"name"})})
 public class Category extends IntegerBaseEntity {
 
     private String name;

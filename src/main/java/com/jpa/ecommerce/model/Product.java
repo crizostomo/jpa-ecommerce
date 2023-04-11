@@ -1,19 +1,19 @@
 package com.jpa.ecommerce.model;
 
 import jakarta.persistence.*;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
 @Getter
 @Setter
-@Table(name = "product")
+@Table(name = "product",
+        uniqueConstraints = {@UniqueConstraint(name = "unq_name", columnNames = {"name"})},
+        indexes = { @Index(name = "idx_name", columnList = "name")})
 public class Product extends IntegerBaseEntity {
 
     private String name;
