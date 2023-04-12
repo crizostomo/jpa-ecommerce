@@ -35,6 +35,7 @@ public class Order extends IntegerBaseEntity {
 
     private BigDecimal total;
 
+    @Column(length = 30, nullable = false)
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 

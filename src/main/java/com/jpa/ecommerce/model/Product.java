@@ -16,10 +16,13 @@ import java.util.List;
         indexes = { @Index(name = "idx_name", columnList = "name")})
 public class Product extends IntegerBaseEntity {
 
+    @Column(length = 100, nullable = false)
     private String name;
 
+    @Column(columnDefinition = "varchar(275) not null default 'description'")
     private String description;
 
+    @Column(precision = 19, scale = 2) // 19 digits including the last 2
     private BigDecimal price;
 
     @Column(name = "creation_date")

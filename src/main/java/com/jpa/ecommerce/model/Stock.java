@@ -15,5 +15,6 @@ public class Stock extends IntegerBaseEntity {
     @JoinColumn(name = "product_id")
     private Product product;
 
+//    @Column(columnDefinition = "int(11)") // int for sql
     private Integer quantity;
 }
