@@ -21,6 +21,7 @@ public class CompoundKeyTest extends EntityManagerTest {
         order.setCreationDate(LocalDateTime.now());
         order.setStatus(OrderStatus.WAITING);
         order.setTotal(product.getPrice());
+        order.setCreationDate(LocalDateTime.now());
 
         entityManager.persist(order);
 

@@ -14,6 +14,7 @@ public class MappingEnumsTest extends EntityManagerTest {
         client.setId(4);
         client.setName("Zoro");
         client.setGender(Gender.MALE);
+        client.setCpf("123");
 
         entityManager.getTransaction().begin();
         entityManager.persist(client);

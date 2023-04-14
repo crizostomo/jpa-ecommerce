@@ -10,10 +10,10 @@ public class AutoRelationshipTest extends EntityManagerTest {
     @Test
     public void verifyRelationship() {
         Category fatherCategory = new Category();
-        fatherCategory.setName("Electronics");
+        fatherCategory.setName("Electronics Devices");
 
         Category category = new Category();
-        fatherCategory.setName("Cell phones");
+        category.setName("Cell phones X Plus");
         category.setFatherCategory(fatherCategory);
 
 

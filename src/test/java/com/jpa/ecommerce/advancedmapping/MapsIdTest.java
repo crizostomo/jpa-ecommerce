@@ -17,7 +17,7 @@ public class MapsIdTest extends EntityManagerTest {
         Invoice invoice = new Invoice();
         invoice.setOrder(order);
         invoice.setIssuingDate(new Date());
-        invoice.setXml("<xml/>");
+        invoice.setXml("<xml/>".getBytes());
 
         entityManager.getTransaction().begin();
         entityManager.persist(invoice);

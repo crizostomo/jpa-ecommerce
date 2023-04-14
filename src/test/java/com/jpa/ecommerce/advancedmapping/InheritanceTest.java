@@ -13,6 +13,8 @@ public class InheritanceTest extends EntityManagerTest {
     public void saveClient() {
         Client client = new Client();
         client.setName("Monkey D. Luffy");
+        client.setGender(Gender.MALE);
+        client.setCpf("333");
 
         entityManager.getTransaction().begin();
         entityManager.persist(client);

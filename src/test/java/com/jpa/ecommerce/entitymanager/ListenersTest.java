@@ -7,6 +7,9 @@ import com.jpa.ecommerce.model.OrderStatus;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
 public class ListenersTest extends EntityManagerTest {
 
     @Test
@@ -14,9 +17,11 @@ public class ListenersTest extends EntityManagerTest {
         Client client = entityManager.find(Client.class, 1);
 
         Order order = new Order();
+        order.setCreationDate(LocalDateTime.now());
 
         order.setClient(client);
         order.setStatus(OrderStatus.WAITING);
+        order.setTotal(BigDecimal.TEN);
 
         entityManager.getTransaction().begin();
 
