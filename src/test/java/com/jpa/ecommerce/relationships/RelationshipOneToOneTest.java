@@ -17,7 +17,7 @@ public class RelationshipOneToOneTest extends EntityManagerTest {
         Order order = entityManager.find(Order.class, 1);
         CardPayment cardPayment = new CardPayment();
 
-        cardPayment.setNumber("1234");
+        cardPayment.setCardNumber("1234");
         cardPayment.setStatus(PaymentStatus.PROCESSING);
         cardPayment.setOrder(order);
 
@@ -36,7 +36,7 @@ public class RelationshipOneToOneTest extends EntityManagerTest {
         Order order = entityManager.find(Order.class, 1);
         Invoice invoice = new Invoice();
 
-        invoice.setXml("TEST1234");
+        invoice.setXml("TEST1234".getBytes());
         invoice.setIssuingDate(new Date());
         invoice.setOrder(order);
 

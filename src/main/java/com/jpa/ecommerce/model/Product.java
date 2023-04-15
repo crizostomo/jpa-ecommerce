@@ -37,8 +37,10 @@ public class Product extends IntegerBaseEntity {
 
     @ManyToMany
     @JoinTable(name = "product_category",
-            joinColumns = @JoinColumn(name = "product_id"),
-            inverseJoinColumns = @JoinColumn(name = "category_id"))
+            joinColumns = @JoinColumn(name = "product_id", nullable = false,
+                    foreignKey = @ForeignKey(name = "fk_category_product_product")),
+            inverseJoinColumns = @JoinColumn(name = "category_id", nullable = false,
+                    foreignKey = @ForeignKey(name = "fk_category_product_product")))
     private List<Category> categories;
 
     @OneToMany(mappedBy = "product")
