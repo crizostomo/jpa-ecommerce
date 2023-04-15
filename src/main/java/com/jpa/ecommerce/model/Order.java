@@ -17,8 +17,9 @@ import java.util.List;
 @Table(name = "order")
 public class Order extends IntegerBaseEntity {
 
-    @ManyToOne
-    @JoinColumn(name = "client_id") // We do not need since the attribute client will join the attribute id
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "client_id", nullable = false,
+            foreignKey = @ForeignKey(name = "fk_order_client")) // We do not need since the attribute client will join the attribute id
     private Client client;
 
     @Column(name = "creation_date")

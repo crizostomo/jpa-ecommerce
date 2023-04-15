@@ -14,7 +14,8 @@ public abstract class Payment extends IntegerBaseEntity {
 
     @MapsId
     @OneToOne(optional = false)
-    @JoinColumn(name = "order_id")
+    @JoinColumn(name = "order_id", nullable = false,
+            foreignKey = @ForeignKey(name = "fk_payment_order"))
     private Order order;
 
     @Enumerated(EnumType.STRING)
