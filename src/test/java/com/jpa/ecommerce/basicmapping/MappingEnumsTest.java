@@ -4,20 +4,20 @@ import com.jpa.ecommerce.EntityManagerTest;
 import com.jpa.ecommerce.model.Client;
 import com.jpa.ecommerce.model.Gender;
 import org.junit.Assert;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 public class MappingEnumsTest extends EntityManagerTest {
 
     @Test
     public void testEnum() {
         Client client = new Client();
-        client.setId(4);
+        client.setId(3);
         client.setName("Zoro");
         client.setGender(Gender.MALE);
         client.setCpf("123");
 
         entityManager.getTransaction().begin();
-        entityManager.persist(client);
+        entityManager.merge(client);
         entityManager.getTransaction().commit();
 
         entityManager.clear();

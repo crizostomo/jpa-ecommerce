@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -35,7 +36,7 @@ public class SavingFilesTest extends EntityManagerTest {
         Assert.assertNotNull(invoiceVerification.getXml());
         Assert.assertTrue(invoiceVerification.getXml().length > 0);
 
-//        /*
+        /*
         try {
             OutputStream out = new FileOutputStream(
                     Files.createFile(Paths.get(
@@ -61,19 +62,19 @@ public class SavingFilesTest extends EntityManagerTest {
         Assert.assertTrue(productVerification.getPhoto().length > 0);
     }
 
+    private static byte[] loadPhoto() {
+        return loadFile("/invoice.xml");
+    }
+
+    private static byte[] loadInvoice() {
+        return loadFile("/invoice.xml");
+    }
+
     private static byte[] loadFile(String name) {
         try {
             return SavingFilesTest.class.getResourceAsStream(name).readAllBytes();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    private static byte[] loadPhoto() {
-        return loadFile("/kindle.jpg");
-    }
-
-    private static byte[] loadInvoice() {
-        return loadFile("/invoice.xml");
     }
 }

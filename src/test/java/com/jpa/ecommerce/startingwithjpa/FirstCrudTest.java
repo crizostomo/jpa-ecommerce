@@ -16,7 +16,7 @@ public class FirstCrudTest extends EntityManagerTest {
 //        client.setId(3);
         client.setName("Zoro");
         client.setGender(Gender.MALE);
-        client.setCpf("333");
+        client.setCpf("3334");
 
         entityManager.getTransaction().begin();
         entityManager.persist(client);

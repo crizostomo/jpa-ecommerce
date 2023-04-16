@@ -5,7 +5,7 @@ import com.jpa.ecommerce.model.Client;
 import com.jpa.ecommerce.model.Order;
 import com.jpa.ecommerce.model.OrderStatus;
 import org.junit.Assert;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

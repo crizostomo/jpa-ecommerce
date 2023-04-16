@@ -28,7 +28,7 @@ public class ColumnDetailTest extends EntityManagerTest {
 
         Product productVerification = entityManager.find(Product.class, product.getId());
         Assert.assertNotNull(productVerification.getCreationDate());
-        Assert.assertNull(productVerification.getLastUpdateDate());
+        Assert.assertNotNull(productVerification.getLastUpdateDate());
     }
 
     @Test
@@ -45,7 +45,7 @@ public class ColumnDetailTest extends EntityManagerTest {
         entityManager.clear();
 
         Product productVerification = entityManager.find(Product.class, product.getId());
-        Assert.assertNotEquals(product.getCreationDate().truncatedTo(ChronoUnit.SECONDS),
+        Assert.assertEquals(product.getCreationDate().truncatedTo(ChronoUnit.SECONDS),
                 productVerification.getCreationDate().truncatedTo(ChronoUnit.SECONDS));
         Assert.assertEquals(product.getLastUpdateDate().truncatedTo(ChronoUnit.SECONDS),
                 productVerification.getLastUpdateDate().truncatedTo(ChronoUnit.SECONDS));

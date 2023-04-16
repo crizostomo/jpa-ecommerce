@@ -3,7 +3,7 @@ package com.jpa.ecommerce.relationships;
 import com.jpa.ecommerce.EntityManagerTest;
 import com.jpa.ecommerce.model.*;
 import org.junit.Assert;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

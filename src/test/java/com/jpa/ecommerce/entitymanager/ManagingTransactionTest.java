@@ -23,7 +23,7 @@ public class ManagingTransactionTest extends EntityManagerTest {
         Order order = entityManager.find(Order.class, 1);
         order.setStatus(OrderStatus.PAID);
 
-        if (order.getPayment() != null) {
+        if (order.getPayment() == null) {
             throw new RuntimeException("Order was not paid");
         }
     }

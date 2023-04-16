@@ -15,20 +15,20 @@ public class OperationsWithTransactionsTest extends EntityManagerTest {
         entityManager.detach(product);
 
         entityManager.getTransaction().begin();
-        product.setName("Kindle Paperwhite 2ª Geração");
+        product.setName("Kindle Paperwhite 2ª Generation");
         entityManager.getTransaction().commit();
 
         entityManager.clear();
 
-        Product verifyProduct = entityManager.find(Product.class, product.getId());
-        Assert.assertEquals("Kindle", verifyProduct.getName());
+        Product productVerification = entityManager.find(Product.class, product.getId());
+        Assert.assertEquals("Kindle Paperwhite 2ª Generation", productVerification.getName());
     }
 
     @Test
     public void showDifferenceWithPersistMerge() {
         Product persistProduct = new Product();
 
-        persistProduct.setId(5);
+//        persistProduct.setId(5);
         persistProduct.setName("Smartphone One Plus");
         persistProduct.setDescription("O processador mais rápido.");
         persistProduct.setPrice(new BigDecimal(2000));
@@ -47,14 +47,14 @@ public class OperationsWithTransactionsTest extends EntityManagerTest {
         Product mergeProduct = new Product();
 
 //        mergeProduct.setId(6);
-        mergeProduct.setName("Notebook Dell");
-        mergeProduct.setDescription("O melhor da categoria.");
+        mergeProduct.setName("Dell Laptop");
+        mergeProduct.setDescription("The best one");
         mergeProduct.setPrice(new BigDecimal(2000));
         mergeProduct.setCreationDate(LocalDateTime.now());
 
         entityManager.getTransaction().begin();
         mergeProduct = entityManager.merge(mergeProduct);
-        mergeProduct.setName("Notebook Dell 2");
+        mergeProduct.setName("Dell Laptop 2");
         entityManager.getTransaction().commit();
 
         entityManager.clear();
@@ -68,8 +68,8 @@ public class OperationsWithTransactionsTest extends EntityManagerTest {
         Product product = new Product();
 
         product.setId(4);
-        product.setName("Microfone Rode Videmic");
-        product.setDescription("A melhor qualidade de som.");
+        product.setName("Mic Rode Videmic");
+        product.setDescription("The best quality");
         product.setPrice(new BigDecimal(1000));
         product.setCreationDate(LocalDateTime.now());
 
@@ -88,13 +88,13 @@ public class OperationsWithTransactionsTest extends EntityManagerTest {
         Product product = entityManager.find(Product.class, 1);
 
         entityManager.getTransaction().begin();
-        product.setName("Kindle Paperwhite 2ª Geração");
+        product.setName("Kindle Paperwhite 2ª Generation");
         entityManager.getTransaction().commit();
 
         entityManager.clear();
 
         Product productVerification = entityManager.find(Product.class, product.getId());
-        Assert.assertEquals("Kindle Paperwhite 2ª Geração", productVerification.getName());
+        Assert.assertEquals("Kindle Paperwhite 2ª Generation", productVerification.getName());
     }
 
     @Test
@@ -103,8 +103,9 @@ public class OperationsWithTransactionsTest extends EntityManagerTest {
 
         product.setId(1);
         product.setName("Kindle Paperwhite");
-        product.setDescription("Conheça o novo Kindle.");
+        product.setDescription("Know more about the new Kindle.");
         product.setPrice(new BigDecimal(599));
+        product.setCreationDate(LocalDateTime.now());
 
         entityManager.getTransaction().begin();
         entityManager.merge(product);
@@ -135,9 +136,9 @@ public class OperationsWithTransactionsTest extends EntityManagerTest {
     public void insertTheFirstObject() {
         Product product = new Product();
 
-        product.setId(2);
-        product.setName("Câmera Canon");
-        product.setDescription("A melhor definição para suas fotos.");
+//        product.setId(2);
+        product.setName("Canon Camera");
+        product.setDescription("The best definition for your photos");
         product.setPrice(new BigDecimal(5000));
         product.setCreationDate(LocalDateTime.now());
 

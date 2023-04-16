@@ -6,7 +6,7 @@ import com.jpa.ecommerce.model.Invoice;
 import com.jpa.ecommerce.model.Order;
 import com.jpa.ecommerce.model.PaymentStatus;
 import org.junit.Assert;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import java.util.Date;
 

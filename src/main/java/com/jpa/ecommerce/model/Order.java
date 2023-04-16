@@ -14,13 +14,16 @@ import java.util.List;
 @Setter
 @Entity
 @EntityListeners({CreateInvoiceListener.class})
-@Table(name = "order")
+@Table(name = "`order`")
 public class Order extends IntegerBaseEntity {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "client_id", nullable = false,
             foreignKey = @ForeignKey(name = "fk_order_client")) // We do not need since the attribute client will join the attribute id
     private Client client;
+
+    @OneToMany(mappedBy = "order")
+    private List<OrderItem> orderItems;
 
     @Column(name = "creation_date")
     private LocalDateTime creationDate;
@@ -31,8 +34,8 @@ public class Order extends IntegerBaseEntity {
     @Column(name = "ending_date")
     private LocalDateTime endingDate;
 
-    @Column(name = "invoice_id")
-    private Integer invoiceId;
+    @OneToOne(mappedBy = "order")
+    private Invoice invoice;
 
     private BigDecimal total;
 
@@ -40,17 +43,11 @@ public class Order extends IntegerBaseEntity {
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
+    @OneToOne(mappedBy = "order")
+    private Payment payment;
+
     @Embedded
     private DeliveryAddress deliveryAddress;
-
-    @OneToMany(mappedBy = "order")
-    private List<OrderItem> orderItems;
-
-    @OneToOne(mappedBy = "order")
-    private CardPayment payment;
-
-    @OneToOne(mappedBy = "order")
-    private Invoice invoice;
 
     @PrePersist
     public void onPersisting() {

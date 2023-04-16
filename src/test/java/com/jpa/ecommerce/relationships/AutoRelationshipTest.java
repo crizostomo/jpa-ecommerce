@@ -3,7 +3,7 @@ package com.jpa.ecommerce.relationships;
 import com.jpa.ecommerce.EntityManagerTest;
 import com.jpa.ecommerce.model.Category;
 import org.junit.Assert;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 public class AutoRelationshipTest extends EntityManagerTest {
 

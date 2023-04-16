@@ -25,7 +25,8 @@ public class Client extends IntegerBaseEntity {
 
     @ElementCollection
     @CollectionTable(name = "client_contact",
-            joinColumns = @JoinColumn(name = "client_id"))
+            joinColumns = @JoinColumn(name = "client_id",
+            foreignKey = @ForeignKey(name = "fk_client_contact_client")))
     @MapKeyColumn(name = "type")
     @Column(name = "description")
     private Map<String, String> contact;
@@ -43,6 +44,7 @@ public class Client extends IntegerBaseEntity {
     @OneToMany(mappedBy = "client")
     private List<Order> orders;
 
+    @PostLoad
     public void showFirstName() {
         if (name != null && !name.isBlank()) {
             int index = name.indexOf(" ");

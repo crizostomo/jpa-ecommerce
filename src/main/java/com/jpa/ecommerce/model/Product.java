@@ -43,7 +43,7 @@ public class Product extends IntegerBaseEntity {
                     foreignKey = @ForeignKey(name = "fk_category_product_product")))
     private List<Category> categories;
 
-    @OneToMany(mappedBy = "product")
+    @OneToOne(mappedBy = "product")
     private Stock stock;
 
     @ElementCollection
