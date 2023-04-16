@@ -13,13 +13,13 @@ import java.util.List;
 @Setter
 @Table(name = "product",
         uniqueConstraints = {@UniqueConstraint(name = "unq_name", columnNames = {"name"})},
-        indexes = { @Index(name = "idx_name", columnList = "name")})
+        indexes = {@Index(name = "idx_name", columnList = "name")})
 public class Product extends IntegerBaseEntity {
 
     @Column(length = 100, nullable = false)
     private String name;
 
-//    @Column(columnDefinition = "varchar(275) not null default 'description'")
+    //    @Column(columnDefinition = "varchar(275) not null default 'description'")
     @Lob // To input long text
     private String description;
 
@@ -57,6 +57,7 @@ public class Product extends IntegerBaseEntity {
             joinColumns = @JoinColumn(name = "product_id"))
     private List<Attribute> attributes;
 
+    @Column(columnDefinition = "varchar(12000)")
     @Lob // Lob = Large Object
     private byte[] photo;
 }
