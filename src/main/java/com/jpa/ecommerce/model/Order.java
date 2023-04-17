@@ -22,6 +22,7 @@ public class Order extends IntegerBaseEntity {
             foreignKey = @ForeignKey(name = "fk_order_client")) // We do not need since the attribute client will join the attribute id
     private Client client;
 
+//    @OneToMany(mappedBy = "order", cascade = CascadeType.MERGE) // For the class CascadeTypePersistTest
     @OneToMany(mappedBy = "order")
     private List<OrderItem> orderItems;
 
@@ -63,9 +64,29 @@ public class Order extends IntegerBaseEntity {
 
     public void calculateTotal() {
         if (orderItems != null) {
-            total = orderItems.stream().map(OrderItem::getProductPrice)
+            total = orderItems.stream().map(
+                    i -> new BigDecimal(i.getQuantity()).multiply(i.getProductPrice()))
                     .reduce(BigDecimal.ZERO, BigDecimal::add);
+        } else {
+            total = BigDecimal.ZERO;
         }
+    }
+
+    @PrePersist
+    public void inPersisting() {
+        creationDate = LocalDateTime.now();
+        calculateTotal();
+    }
+
+    @PreUpdate
+    public void inUpdating() {
+        lastUpdateDate = LocalDateTime.now();
+        calculateTotal();
+    }
+
+    @PostPersist
+    public void afterPersisting() {
+        System.out.println("After persisting product");
     }
 
     public boolean isPaid() {

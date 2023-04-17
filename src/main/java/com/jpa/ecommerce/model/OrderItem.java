@@ -18,7 +18,8 @@ public class OrderItem {
     private OrderItemId id;
 
     @MapsId("orderId")
-    @ManyToOne
+//    @ManyToOne(optional = false, cascade = CascadeType.MERGE) // For the class CascadeTypePersistTest
+    @ManyToOne(optional = false)
     @JoinColumn(name = "order_id", foreignKey = @ForeignKey(name = "fk_order_item_order"))
     private Order order;
 

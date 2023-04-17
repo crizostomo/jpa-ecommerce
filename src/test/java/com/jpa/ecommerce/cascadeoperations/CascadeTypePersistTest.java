@@ -39,7 +39,7 @@ public class CascadeTypePersistTest extends EntityManagerTest {
         entityManager.clear();
 
         Order orderVerification = entityManager.find(Order.class, order.getId());
-        Assert.assertNotNull(order);
+        Assert.assertNotNull(orderVerification);
         Assert.assertFalse(order.getOrderItems().isEmpty());
 
     }
@@ -69,7 +69,7 @@ public class CascadeTypePersistTest extends EntityManagerTest {
         entityManager.clear();
 
         Order orderVerification = entityManager.find(Order.class, order.getId());
-        Assert.assertNotNull(order);
+        Assert.assertNotNull(orderVerification);
     }
 
     // @Test
@@ -93,6 +93,6 @@ public class CascadeTypePersistTest extends EntityManagerTest {
         entityManager.clear();
 
         Client clientVerification = entityManager.find(Client.class, client.getId());
-        Assert.assertNotNull(client);
+        Assert.assertNotNull(clientVerification);
     }
 }
