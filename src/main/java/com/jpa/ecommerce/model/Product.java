@@ -35,6 +35,7 @@ public class Product extends IntegerBaseEntity {
     @OneToMany(mappedBy = "product")
     private List<OrderItem> orderItems;
 
+//    @ManyToMany(cascade = CascadeType.MERGE) // For the class CascadeTypePersistTest
     @ManyToMany
     @JoinTable(name = "product_category",
             joinColumns = @JoinColumn(name = "product_id", nullable = false,
