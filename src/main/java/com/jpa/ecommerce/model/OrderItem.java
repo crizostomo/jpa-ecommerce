@@ -19,7 +19,8 @@ public class OrderItem {
 
     @MapsId("orderId")
 //    @ManyToOne(optional = false, cascade = CascadeType.MERGE) // For the class CascadeTypePersistTest
-    @ManyToOne(optional = false)
+//    @ManyToOne(optional = false, cascade = CascadeType.REMOVE) // For the class CascadeTypeRemoveTest
+    @ManyToOne(optional = false) // For the class CascadeTypeRemoveTest
     @JoinColumn(name = "order_id", foreignKey = @ForeignKey(name = "fk_order_item_order"))
     private Order order;
 

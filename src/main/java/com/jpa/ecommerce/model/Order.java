@@ -23,6 +23,7 @@ public class Order extends IntegerBaseEntity {
     private Client client;
 
 //    @OneToMany(mappedBy = "order", cascade = CascadeType.MERGE) // For the class CascadeTypePersistTest
+//    @OneToMany(mappedBy = "order", cascade = CascadeType.REMOVE) // For the class CascadeTypeRemoveTest
     @OneToMany(mappedBy = "order")
     private List<OrderItem> orderItems;
 
@@ -70,18 +71,6 @@ public class Order extends IntegerBaseEntity {
         } else {
             total = BigDecimal.ZERO;
         }
-    }
-
-    @PrePersist
-    public void inPersisting() {
-        creationDate = LocalDateTime.now();
-        calculateTotal();
-    }
-
-    @PreUpdate
-    public void inUpdating() {
-        lastUpdateDate = LocalDateTime.now();
-        calculateTotal();
     }
 
     @PostPersist
