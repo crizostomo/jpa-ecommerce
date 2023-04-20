@@ -24,6 +24,9 @@ public class Order extends IntegerBaseEntity {
 
 //    @OneToMany(mappedBy = "order", cascade = CascadeType.MERGE) // For the class CascadeTypePersistTest
 //    @OneToMany(mappedBy = "order", cascade = CascadeType.REMOVE) // For the class CascadeTypeRemoveTest
+//    @OneToMany(mappedBy = "order",
+//            cascade = CascadeType.PERSIST,
+//            orphanRemoval = true) // For OneToOne/OneToMany --> Equivalent to cascade.Remove and needs cascade method to be used | // For the class CascadeTypeRemoveTest
     @OneToMany(mappedBy = "order")
     private List<OrderItem> orderItems;
 

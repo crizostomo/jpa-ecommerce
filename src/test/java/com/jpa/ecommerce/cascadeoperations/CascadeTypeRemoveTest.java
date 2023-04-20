@@ -10,6 +10,22 @@ import org.junit.Test;
 
 public class CascadeTypeRemoveTest extends EntityManagerTest {
 
+//    @Test
+    public void removeOrphanItems() {
+        Order order = entityManager.find(Order.class, 1);
+
+        Assert.assertFalse(order.getOrderItems().isEmpty());
+
+        entityManager.getTransaction().begin();
+        order.getOrderItems().clear();
+        entityManager.getTransaction().commit();
+
+        entityManager.clear();
+
+        Order orderVerification = entityManager.find(Order.class, order.getId());
+        Assert.assertTrue(orderVerification.getOrderItems().isEmpty());
+    }
+
     @Test
     public void removeProductCategoryRelationship() {
         Product product = entityManager.find(Product.class, 1);
@@ -27,7 +43,7 @@ public class CascadeTypeRemoveTest extends EntityManagerTest {
         Assert.assertTrue(productVerification.getCategories().isEmpty());
     }
 
-//    @Test
+    //    @Test
     public void removeOrderAndItems() {
         Order order = entityManager.find(Order.class, 1);
 
@@ -42,7 +58,7 @@ public class CascadeTypeRemoveTest extends EntityManagerTest {
         Assert.assertNull(orderVerification);
     }
 
-//     @Test
+    //     @Test
     public void removeOrderItemAndOrder() {
         OrderItem orderItem = entityManager.find(
                 OrderItem.class, new OrderItemId(1, 1));
