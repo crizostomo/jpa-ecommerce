@@ -4,10 +4,28 @@ import com.jpa.ecommerce.EntityManagerTest;
 import com.jpa.ecommerce.model.Order;
 import com.jpa.ecommerce.model.OrderItem;
 import com.jpa.ecommerce.model.OrderItemId;
+import com.jpa.ecommerce.model.Product;
 import org.junit.Assert;
 import org.junit.Test;
 
 public class CascadeTypeRemoveTest extends EntityManagerTest {
+
+    @Test
+    public void removeProductCategoryRelationship() {
+        Product product = entityManager.find(Product.class, 1);
+
+        Assert.assertFalse(product.getCategories().isEmpty());
+
+        entityManager.getTransaction().begin();
+        product.getCategories().clear();
+//        product.getCategories().remove(0); // Another way to remove, but at this time just one category
+        entityManager.getTransaction().commit();
+
+        entityManager.clear();
+
+        Product productVerification = entityManager.find(Product.class, product.getId());
+        Assert.assertTrue(productVerification.getCategories().isEmpty());
+    }
 
 //    @Test
     public void removeOrderAndItems() {

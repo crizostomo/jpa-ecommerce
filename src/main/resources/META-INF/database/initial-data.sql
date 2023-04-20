@@ -16,5 +16,7 @@ insert into order_item (order_id, product_id, product_price, quantity) values (2
 insert into category (id, name) values (1, 'Electronics Products');
 insert into category (id, name) values (2, 'Sci-Fi Books');
 
+insert into product_category (product_id, category_id) values (1, 2);
+
 insert into payment (order_id, status, card_number, payment_type) values (2, 'PROCESSING', '123', 'card');
 --insert into card_payment (order_id, card_number) values (2, '123');
