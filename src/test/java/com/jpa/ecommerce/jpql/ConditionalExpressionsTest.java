@@ -1,18 +1,31 @@
 package com.jpa.ecommerce.jpql;
 
 import com.jpa.ecommerce.EntityManagerTest;
+import com.jpa.ecommerce.model.Order;
 import com.jpa.ecommerce.model.Product;
 import jakarta.persistence.TypedQuery;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class ConditionalExpressionsTest extends EntityManagerTest {
 
     @Test
-    public void GreaterLesser() {
+    public void greaterLesserWithDates() {
+        String jpql = "select o from Order o where o.creationDate > :date";
+
+        TypedQuery<Order> typedQuery = entityManager.createQuery(jpql, Order.class);
+        typedQuery.setParameter("date", LocalDateTime.now().minusDays(2));
+
+        List<Order> list = typedQuery.getResultList();
+        Assert.assertFalse(list.isEmpty());
+    }
+
+    @Test
+    public void greaterLesser() {
 //        String jpql = "select p from Product p where p.price > :price";
         String jpql = "select p from Product p where p.price > :initialPrice and p.price <= :finalPrice";
 

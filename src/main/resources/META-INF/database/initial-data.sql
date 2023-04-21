@@ -7,7 +7,7 @@ insert into client (id, name, cpf) values (2, 'Monkey D. Luffy', '333');
 insert into client_detail (client_id, gender, birth_date) values (1, 'MALE', date_sub(sysdate(), interval 27 year));
 insert into client_detail (client_id, gender, birth_date) values (2, 'MALE', date_sub(sysdate(), interval 30 year));
 
-insert into `order` (id, client_id, creation_date, total, status) values (1, 1, sysdate(), 1700.0, 'WAITING');
+insert into `order` (id, client_id, creation_date, total, status) values (1, 1, date_sub(sysdate(), interval 5 day), 1700.0, 'WAITING');
 insert into `order` (id, client_id, creation_date, total, status) values (2, 1, sysdate(), 500.0, 'WAITING');
 
 insert into order_item (order_id, product_id, product_price, quantity) values (1, 1, 500, 2);
