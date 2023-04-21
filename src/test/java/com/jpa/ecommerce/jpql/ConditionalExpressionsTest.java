@@ -1,13 +1,29 @@
 package com.jpa.ecommerce.jpql;
 
 import com.jpa.ecommerce.EntityManagerTest;
+import com.jpa.ecommerce.model.Product;
 import jakarta.persistence.TypedQuery;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class ConditionalExpressionsTest extends EntityManagerTest {
+
+    @Test
+    public void GreaterLesser() {
+//        String jpql = "select p from Product p where p.price > :price";
+        String jpql = "select p from Product p where p.price > :initialPrice and p.price <= :finalPrice";
+
+        TypedQuery<Product> typedQuery = entityManager.createQuery(jpql, Product.class);
+//        typedQuery.setParameter("price", new BigDecimal(500));
+        typedQuery.setParameter("initialPrice", new BigDecimal(400));
+        typedQuery.setParameter("finalPrice", new BigDecimal(1500));
+
+        List<Product> list = typedQuery.getResultList();
+        Assert.assertFalse(list.isEmpty());
+    }
 
     @Test
     public void isNull() {
