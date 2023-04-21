@@ -3,7 +3,6 @@ package com.jpa.ecommerce.jpql;
 import com.jpa.ecommerce.EntityManagerTest;
 import com.jpa.ecommerce.model.Client;
 import com.jpa.ecommerce.model.Order;
-import com.jpa.ecommerce.model.Product;
 import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 import org.junit.Assert;
@@ -12,6 +11,18 @@ import org.junit.Test;
 import java.util.List;
 
 public class BasicJPQLTest extends EntityManagerTest {
+
+    @Test
+    public void projectTheResult() {
+        String jpql = "select id, name from Product";
+
+        TypedQuery<Object[]> typedQuery = entityManager.createQuery(jpql, Object[].class);
+        List<Object[]> list = typedQuery.getResultList();
+
+        Assert.assertTrue(list.get(0).length == 2);
+
+        list.forEach(array -> System.out.println(array[0] + ", " + array[1]));
+    }
 
     @Test
     public void selectAnAttributeToReturn() {
