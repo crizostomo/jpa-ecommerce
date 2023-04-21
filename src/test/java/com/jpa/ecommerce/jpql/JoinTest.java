@@ -10,6 +10,18 @@ import java.util.List;
 
 public class JoinTest extends EntityManagerTest {
 
+    @Test // To get all that we need in one query
+    public void usingJoinFetch() {
+        String jpql = "select o from Order o " +
+                "left join fetch o.payment " +
+                "join fetch o.client " +
+                "left join fetch o.invoice ";
+
+        TypedQuery<Order> typedQuery = entityManager.createQuery(jpql, Order.class);
+        List<Order> list = typedQuery.getResultList();
+        Assert.assertFalse(list.isEmpty());
+    }
+
     @Test
     public void usingLeftJoinWithFilter() {
         String jpql = "select o from Order o left join o.payment pay on pay.status = 'PROCESSING'";
