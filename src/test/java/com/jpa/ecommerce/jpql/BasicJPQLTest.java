@@ -1,6 +1,7 @@
 package com.jpa.ecommerce.jpql;
 
 import com.jpa.ecommerce.EntityManagerTest;
+import com.jpa.ecommerce.dto.ProductDTO;
 import com.jpa.ecommerce.model.Client;
 import com.jpa.ecommerce.model.Order;
 import jakarta.persistence.Query;
@@ -11,6 +12,17 @@ import org.junit.Test;
 import java.util.List;
 
 public class BasicJPQLTest extends EntityManagerTest {
+
+    @Test
+    public void projectInDFTO() {
+        String jpql = "select new com.jpa.ecommerce.dto.ProductDTO(id, name) from Product";
+
+        TypedQuery<ProductDTO> typedQuery = entityManager.createQuery(jpql, ProductDTO.class);
+        List<ProductDTO> list = typedQuery.getResultList();
+        Assert.assertFalse(list.isEmpty());
+
+        list.forEach(productDTO -> System.out.println(productDTO.getId() + ", " + productDTO.getName()));
+    }
 
     @Test
     public void projectTheResult() {
