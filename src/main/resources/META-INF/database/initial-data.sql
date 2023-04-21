@@ -21,3 +21,5 @@ insert into product_category (product_id, category_id) values (1, 2);
 
 insert into payment (order_id, status, card_number, payment_type) values (2, 'PROCESSING', '123', 'card');
 --insert into card_payment (order_id, card_number) values (2, '123');
+
+insert into invoice (order_id, xml, issuing_date) values (2, '<xml />', sysdate());

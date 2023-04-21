@@ -22,6 +22,7 @@ public class Invoice extends IntegerBaseEntity {
     @Lob // Lob = Large Object
     private byte[] xml;
 
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "issuing_date")
     private Date issuingDate;
 }
