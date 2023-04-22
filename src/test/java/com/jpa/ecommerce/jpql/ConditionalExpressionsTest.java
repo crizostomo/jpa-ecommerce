@@ -14,6 +14,17 @@ import java.util.List;
 public class ConditionalExpressionsTest extends EntityManagerTest {
 
     @Test
+    public void usingDifferent() {
+        String jpql = "select p from Product p where p.price <> :price";
+
+        TypedQuery<Order> typedQuery = entityManager.createQuery(jpql, Order.class);
+        typedQuery.setParameter("price", 100);
+
+        List<Order> list = typedQuery.getResultList();
+        Assert.assertFalse(list.isEmpty());
+    }
+
+    @Test
     public void useOfBetween() {
 //        String jpql = "select p from Product p where p.price between :initialPrice and :finalPrice";
         String jpql = "select o from Order o where o.creationDate between :initialDate and :finalDate";
