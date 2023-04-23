@@ -14,8 +14,13 @@ insert into order_item (order_id, product_id, product_price, quantity) values (1
 insert into order_item (order_id, product_id, product_price, quantity) values (1, 3, 700, 1);
 insert into order_item (order_id, product_id, product_price, quantity) values (2, 1, 500, 1);
 
-insert into category (id, name) values (1, 'Electronics Products');
-insert into category (id, name) values (2, 'Sci-Fi Books');
+insert into category (name) values ('Electronics Products');
+insert into category (name) values ('Sci-Fi Books');
+insert into category (name) values ('Sports');
+insert into category (name) values ('Soccer');
+insert into category (name) values ('Swimming');
+insert into category (name) values ('Laptops');
+insert into category (name) values ('Smartphones');
 
 insert into product_category (product_id, category_id) values (1, 2);
 
