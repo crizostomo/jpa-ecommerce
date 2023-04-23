@@ -17,10 +17,10 @@ public class ConditionalExpressionsTest extends EntityManagerTest {
     public void usingDifferent() {
         String jpql = "select p from Product p where p.price <> :price";
 
-        TypedQuery<Order> typedQuery = entityManager.createQuery(jpql, Order.class);
+        TypedQuery<Product> typedQuery = entityManager.createQuery(jpql, Product.class);
         typedQuery.setParameter("price", 100);
 
-        List<Order> list = typedQuery.getResultList();
+        List<Product> list = typedQuery.getResultList();
         Assert.assertFalse(list.isEmpty());
     }
 
