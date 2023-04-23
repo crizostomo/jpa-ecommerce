@@ -7,11 +7,29 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.List;
+import java.util.TimeZone;
 
-public class StringsFunctionTest extends EntityManagerTest {
+public class FunctionTest extends EntityManagerTest {
 
     @Test
-    public void applyFunction() {
+    public void applyDateFunction() {
+        TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
+        // current_date, current_time, current_timestamp
+
+        String jpql = "select year(o.creationDate), month(o.creationDate), day(o.creationDate), " +
+                "hour(o.creationDate), minute(o.creationDate), second(o.creationDate) from Order o ";
+//                + "where o.creationDate < current_date";
+
+        TypedQuery<Object[]> typedQuery = entityManager.createQuery(jpql, Object[].class);
+
+        List<Object[]> list = typedQuery.getResultList();
+        Assert.assertFalse(list.isEmpty());
+
+        list.forEach(date -> System.out.println(date[0] + " | " + date[1] + " | " + date[2]));
+    }
+
+    @Test
+    public void applyStringFunction() {
         String jpql = "select c.name, concat('Category: ', c.name) from Category c"; // Concat
 //        String jpql = "select c.name, length(c.name) from Category c"; // Length
 //        String jpql = "select c.name, locate('a', c.name) from Category c"; // Locate
