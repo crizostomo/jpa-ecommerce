@@ -14,7 +14,18 @@ import java.util.List;
 public class BasicJPQLTest extends EntityManagerTest {
 
     @Test
-    public void projectInDFTO() {
+    public void orderResults() {
+        String jpql = "select c from Client c order by c.name desc";
+
+        TypedQuery<Client> typedQuery = entityManager.createQuery(jpql, Client.class);
+        List<Client> list = typedQuery.getResultList();
+        Assert.assertFalse(list.isEmpty());
+
+        list.forEach(client -> System.out.println(client.getId() + ", " + client.getName()));
+    }
+
+    @Test
+    public void projectInDTO() {
         String jpql = "select new com.jpa.ecommerce.dto.ProductDTO(id, name) from Product";
 
         TypedQuery<ProductDTO> typedQuery = entityManager.createQuery(jpql, ProductDTO.class);
