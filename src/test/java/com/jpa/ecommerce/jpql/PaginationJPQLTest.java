@@ -2,8 +2,6 @@ package com.jpa.ecommerce.jpql;
 
 import com.jpa.ecommerce.EntityManagerTest;
 import com.jpa.ecommerce.model.Category;
-import com.jpa.ecommerce.model.Order;
-import com.jpa.ecommerce.model.OrderStatus;
 import jakarta.persistence.TypedQuery;
 import org.junit.Assert;
 import org.junit.Test;
@@ -19,7 +17,7 @@ public class PaginationJPQLTest extends EntityManagerTest {
         TypedQuery<Category> typedQuery = entityManager.createQuery(jpql, Category.class);
 
         // TO GO TO OTHER PAGES: FIRST_RESULT = MAX_RESULTS * (page - 1)
-        typedQuery.setFirstResult(0);
+        typedQuery.setFirstResult(0); // To limit the number of results, just use setMaxResults
         typedQuery.setMaxResults(3);
 
         List<Category> list = typedQuery.getResultList();
