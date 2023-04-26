@@ -2,6 +2,7 @@ package com.jpa.ecommerce.jpql;
 
 import com.jpa.ecommerce.EntityManagerTest;
 import com.jpa.ecommerce.model.Category;
+import com.jpa.ecommerce.model.Order;
 import jakarta.persistence.TypedQuery;
 import org.junit.Assert;
 import org.junit.Test;
@@ -10,6 +11,23 @@ import java.util.List;
 import java.util.TimeZone;
 
 public class FunctionTest extends EntityManagerTest {
+
+    @Test
+    public void applyNativeFunction() {
+        String jpql = "select o from Order o where function('invoice_above_average', o.total) = 1";
+        String jpqlString = "select function('dayname', o.creationDate) from Order o " +
+                "where function('invoice_above_average', o.total) = 1";
+
+        TypedQuery<Order> typedQuery = entityManager.createQuery(jpql, Order.class);
+        TypedQuery<String> stringTypedQuery = entityManager.createQuery(jpqlString, String.class);
+
+        List<Order> list = typedQuery.getResultList();
+        List<String> stringList = stringTypedQuery.getResultList();
+        Assert.assertFalse(list.isEmpty());
+
+        list.forEach(obj -> System.out.println(obj));
+        stringList.forEach(obj -> System.out.println(obj));
+    }
 
     @Test
     public void applyCollectionFunction() {

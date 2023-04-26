@@ -1,5 +1,7 @@
 create table testing (id integer not null auto_increment, primary key (id)) engine=InnoDB;
 
+create function invoice_above_average(`value` double) returns boolean reads sql data return `value` > (select avg(total) from `order`);
+
 --create table category (id integer not null auto_increment, name varchar(100) not null, father_category_id integer, primary key (id)) engine=InnoDB;
 --create table client (id integer not null auto_increment, cpf varchar(14) not null, name varchar(100) not null, primary key (id)) engine=InnoDB;
 --create table client_contact (client_id integer not null, description varchar(255), type varchar(255) not null, primary key (client_id, type)) engine=InnoDB;

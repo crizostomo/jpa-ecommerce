@@ -1,5 +1,7 @@
 drop table if exists testing;
 
+drop function if exists invoice_above_average;
+
 --alter table category drop foreign key fk_category_category_father;
 --alter table client_contact drop foreign key fk_client_contact_client;
 --alter table client_detail drop foreign key fk_client_detail_client;
