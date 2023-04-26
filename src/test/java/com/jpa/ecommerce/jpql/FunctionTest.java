@@ -12,27 +12,6 @@ import java.util.TimeZone;
 public class FunctionTest extends EntityManagerTest {
 
     @Test
-    public void groupResult() {
-//         Quantity of products by category
-//        String jpql = "select c.name, count(p.id) from Category c join c.products p group by c.id";
-
-//         Total amount of sales per month
-//        String jpql = "select concat(year(o.creationDate), ' ', function('monthname', o.creationDate)), sum(o.total) from Order o " +
-//                "group by year(o.creationDate), month(o.creationDate), o.creationDate";
-
-//         Total amount of sales per category
-        String jpql = "select c.name, sum(oi.productPrice) from OrderItem oi join oi.product pro join pro.categories c " +
-                "group by c.id";
-
-        TypedQuery<Object[]> typedQuery = entityManager.createQuery(jpql, Object[].class);
-
-        List<Object[]> list = typedQuery.getResultList();
-        Assert.assertFalse(list.isEmpty());
-
-        list.forEach(arr -> System.out.println(arr[0] + ", " + arr[1]));
-    }
-
-    @Test
     public void applyAggregationFunction() {
         // avg, count, min, max, sum
         String jpql = "select avg (o.total) from Order o";
