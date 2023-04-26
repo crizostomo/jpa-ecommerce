@@ -12,6 +12,19 @@ import java.util.TimeZone;
 public class FunctionTest extends EntityManagerTest {
 
     @Test
+    public void applyNumberFunction() {
+        String jpql = "select abs(o.total), mod(o.id, 2), sqrt(o.total) o from Order o " +
+                "where abs(o.total) > 1000"; // Abs = take the absolute number
+
+        TypedQuery<Object[]> typedQuery = entityManager.createQuery(jpql, Object[].class);
+
+        List<Object[]> list = typedQuery.getResultList();
+        Assert.assertFalse(list.isEmpty());
+
+        list.forEach(arr -> System.out.println(arr[0] + " | " + arr[1] + " | " + arr[2]));
+    }
+
+    @Test
     public void applyDateFunction() {
         TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
         // current_date, current_time, current_timestamp
