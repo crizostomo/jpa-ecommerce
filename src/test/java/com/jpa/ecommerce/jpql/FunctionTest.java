@@ -1,7 +1,6 @@
 package com.jpa.ecommerce.jpql;
 
 import com.jpa.ecommerce.EntityManagerTest;
-import com.jpa.ecommerce.model.Category;
 import com.jpa.ecommerce.model.Order;
 import jakarta.persistence.TypedQuery;
 import org.junit.Assert;
@@ -11,6 +10,19 @@ import java.util.List;
 import java.util.TimeZone;
 
 public class FunctionTest extends EntityManagerTest {
+
+    @Test
+    public void applyAggregationFunction() {
+        // avg, count, min, max, sum
+        String jpql = "select avg (o.total) from Order o";
+
+        TypedQuery<Number> typedQuery = entityManager.createQuery(jpql, Number.class); //Number works for avg-count-min-max-sum
+
+        List<Number> list = typedQuery.getResultList();
+        Assert.assertFalse(list.isEmpty());
+
+        list.forEach(obj -> System.out.println(obj));
+    }
 
     @Test
     public void applyNativeFunction() {
