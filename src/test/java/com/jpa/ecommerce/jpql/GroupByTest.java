@@ -19,7 +19,6 @@ public class GroupByTest extends EntityManagerTest {
                 "having sum(oi.productPrice) > 1500"; // avg, max, min, count
 
         TypedQuery<Object[]> typedQuery = entityManager.createQuery(jpql, Object[].class);
-//        typedQuery.setParameter("status", OrderStatus.PAID);
 
         List<Object[]> list = typedQuery.getResultList();
         Assert.assertFalse(list.isEmpty());

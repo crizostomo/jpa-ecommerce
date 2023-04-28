@@ -14,6 +14,37 @@ import java.util.List;
 public class ConditionalExpressionsTest extends EntityManagerTest {
 
     @Test
+    public void usingCaseExpression() {
+        String jpqlCase = "select o.id, " +
+                "case o.status " +
+                "when 'PAID' then 'IT IS PAID' " +
+                "when 'CANCELLED' then 'IT IS CANCELLED' " +
+                "else 'IT IS WAITING' " +
+                "end " +
+                "from Order o";
+
+        String jpqlCaseAndType = "select o.id, " +
+                "case type(o.payment) " +
+                "when SlipPayment then 'Paid by Bank Slip' " +
+                "when CardPayment then 'Paid by Card' " +
+                "else 'It was not paid yet' " +
+                "end " +
+                "from Order o";
+
+        TypedQuery<Object[]> typedQueryCase = entityManager.createQuery(jpqlCase, Object[].class);
+        TypedQuery<Object[]> typedQueryCaseAndType = entityManager.createQuery(jpqlCaseAndType, Object[].class);
+
+        List<Object[]> listCase = typedQueryCase.getResultList();
+        List<Object[]> listCaseAndType = typedQueryCaseAndType.getResultList();
+
+        Assert.assertFalse(listCase.isEmpty());
+        Assert.assertFalse(listCaseAndType.isEmpty());
+
+        listCase.forEach(arr -> System.out.println(arr[0] + ", " + arr[1]));
+        listCaseAndType.forEach(arr -> System.out.println(arr[0] + ", " + arr[1]));
+    }
+
+    @Test
     public void usingDifferent() {
         String jpql = "select p from Product p where p.price <> :price";
 
