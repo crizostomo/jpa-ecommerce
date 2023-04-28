@@ -11,6 +11,23 @@ import java.util.List;
 public class GroupByTest extends EntityManagerTest {
 
     @Test
+    public void limitGroupWithHaving() {
+//         Total amount of sales among the categories that sell the most
+        String jpql = "select cat.name, sum(oi.productPrice) from OrderItem oi " +
+                "join oi.product pro join pro.categories cat " +
+                "group by cat.id " +
+                "having sum(oi.productPrice) > 1500"; // avg, max, min, count
+
+        TypedQuery<Object[]> typedQuery = entityManager.createQuery(jpql, Object[].class);
+//        typedQuery.setParameter("status", OrderStatus.PAID);
+
+        List<Object[]> list = typedQuery.getResultList();
+        Assert.assertFalse(list.isEmpty());
+
+        list.forEach(arr -> System.out.println(arr[0] + ", " + arr[1]));
+    }
+
+    @Test
     public void groupAndFilterResult() {
 //         Total amount of sales per month
 //        String jpql = "select concat(year(o.creationDate), '/', function('monthname', o.creationDate)), sum(o.total) " +
