@@ -13,6 +13,39 @@ import java.util.List;
 public class SubqueriesTest extends EntityManagerTest {
 
     @Test
+    public void searchByUsingInVersion1() {
+//        String jpql = "select distinct o from Order o " +
+//                "join o.orderItems oi " +
+//                "join oi.product pro " +
+//                "where pro.price > 100 ";
+        String jpql = "select o from Order o " +
+                "where o.id in (select o2.id from OrderItem oi2 " +
+                "join oi2.order o2 " +
+                "join oi2.product pro2 " +
+                "where pro2.price > 100) ";
+
+        TypedQuery<Order> typedQuery = entityManager.createQuery(jpql, Order.class);
+        List<Order> list = typedQuery.getResultList();
+        Assert.assertFalse(list.isEmpty());
+
+        list.forEach(obj -> System.out.println("ID: " + obj.getId()));
+    }
+
+    @Test
+    public void searchByUsingIn() { // It does not repeat the order here in this test
+        String jpql = "select o from Order o " +
+                "join o.orderItems oi " +
+                "join oi.product pro " +
+                "where pro.price > 100 ";
+
+        TypedQuery<Order> typedQuery = entityManager.createQuery(jpql, Order.class);
+        List<Order> list = typedQuery.getResultList();
+        Assert.assertFalse(list.isEmpty());
+
+        list.forEach(obj -> System.out.println("ID: " + obj.getId()));
+    }
+
+        @Test
     public void searchSubqueries() {
 // Good customers Version 2
         String jpql = "select c from Client c where " +
