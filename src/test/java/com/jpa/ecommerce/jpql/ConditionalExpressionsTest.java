@@ -1,6 +1,7 @@
 package com.jpa.ecommerce.jpql;
 
 import com.jpa.ecommerce.EntityManagerTest;
+import com.jpa.ecommerce.model.Client;
 import com.jpa.ecommerce.model.Order;
 import com.jpa.ecommerce.model.Product;
 import jakarta.persistence.TypedQuery;
@@ -9,9 +10,50 @@ import org.junit.Test;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ConditionalExpressionsTest extends EntityManagerTest {
+
+    @Test
+    public void usingInExpressionWithClient() {
+        Client client1 = entityManager.find(Client.class, 1);
+//        Client client1 = new Client();
+//        client1.setId(1);
+
+        Client client2 = entityManager.find(Client.class, 2);
+//        Client client2 = new Client();
+//        client2.setId(2);
+
+        List<Client> parameters = Arrays.asList(client1, client2);
+
+        String jpql = "select o from Order o where o.client in (:clients)";
+
+        TypedQuery<Order> typedQuery = entityManager.createQuery(jpql, Order.class);
+        typedQuery.setParameter("clients", parameters);
+
+        List<Order> list = typedQuery.getResultList();
+        Assert.assertFalse(list.isEmpty());
+
+        for (Order order : list) {
+            System.out.println("Order ID: " + order.getId() + ", Date: " + order.getCreationDate());
+        }
+    }
+
+    @Test
+    public void usingInExpression() {
+        List<Integer> parameters = Arrays.asList(1, 3, 4);
+
+        String jpql = "select o from Order o where o.id in (:list)";
+
+        TypedQuery<Product> typedQuery = entityManager.createQuery(jpql, Product.class);
+        typedQuery.setParameter("list", parameters);
+
+        List<Product> list = typedQuery.getResultList();
+        Assert.assertFalse(list.isEmpty());
+    }
 
     @Test
     public void usingCaseExpression() {
