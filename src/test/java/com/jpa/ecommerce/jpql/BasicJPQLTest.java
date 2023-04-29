@@ -14,6 +14,19 @@ import java.util.List;
 public class BasicJPQLTest extends EntityManagerTest {
 
     @Test
+    public void usingDistinct() {
+        String jpql = "select distinct o from Order o " +
+                "join o.orderItems oi join oi.product pro " +
+                "where pro.id in (1, 2, 3, 4) ";
+
+        TypedQuery<Order> typedQuery = entityManager.createQuery(jpql, Order.class);
+        List<Order> list = typedQuery.getResultList();
+        Assert.assertFalse(list.isEmpty());
+
+        System.out.println(list.size());;
+    }
+
+    @Test
     public void orderResults() {
         String jpql = "select c from Client c order by c.name desc";
 
