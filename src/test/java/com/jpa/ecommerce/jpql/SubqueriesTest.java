@@ -13,9 +13,23 @@ import java.util.List;
 public class SubqueriesTest extends EntityManagerTest {
 
     @Test
+    public void searchByUsingExistsExercise() {
+        String jpql = "select p from Product p " +
+                "where exists " +
+                "(select 1 from OrderItem where product = p and productPrice <> p.price)";
+
+        TypedQuery<Product> typedQuery = entityManager.createQuery(jpql, Product.class);
+
+        List<Product> list = typedQuery.getResultList();
+        Assert.assertFalse(list.isEmpty());
+
+        list.forEach(obj -> System.out.println("ID: " + obj.getId()));
+    }
+
+    @Test
     public void searchSubqueriesExercise() {
         String jpql = "select c from Client c where " +
-                " (select count(client) from Order where client = c) >= 2";
+                "(select count(client) from Order where client = c) >= 2";
 
         TypedQuery<Client> typedQuery = entityManager.createQuery(jpql, Client.class);
 

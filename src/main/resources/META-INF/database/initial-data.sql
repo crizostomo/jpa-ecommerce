@@ -1,4 +1,4 @@
-insert into product (id, name, price, creation_date, description) values (1, 'Kindle', 500.0, date_sub(sysdate(), interval 1 day), 'Check it out the new Kindle.');
+insert into product (id, name, price, creation_date, description) values (1, 'Kindle', 800.0, date_sub(sysdate(), interval 1 day), 'Check it out the new Kindle.');
 insert into product (id, name, price, creation_date, description) values (3, 'Kindle II', 1400.0, date_sub(sysdate(), interval 1 day), 'Check it out the new Kindle II.');
 insert into product (id, name, price, creation_date, description) values (4, 'Kindle III', 3500.0, date_sub(sysdate(), interval 1 day), 'Check it out the new Kindle III.');
 
