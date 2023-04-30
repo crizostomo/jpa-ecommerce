@@ -13,6 +13,19 @@ import java.util.List;
 public class SubqueriesTest extends EntityManagerTest {
 
     @Test
+    public void searchSubqueriesExercise() {
+        String jpql = "select c from Client c where " +
+                " (select count(client) from Order where client = c) >= 2";
+
+        TypedQuery<Client> typedQuery = entityManager.createQuery(jpql, Client.class);
+
+        List<Client> list = typedQuery.getResultList();
+        Assert.assertFalse(list.isEmpty());
+
+        list.forEach(obj -> System.out.println("ID: " + obj.getId()));
+    }
+
+    @Test
     public void searchByUsingInExercise() {
         String jpql = "select o from Order o " +
                 "where o.id in " +
@@ -21,10 +34,10 @@ public class SubqueriesTest extends EntityManagerTest {
 
         TypedQuery<Order> typedQuery = entityManager.createQuery(jpql, Order.class);
 
-        List<Order> lista = typedQuery.getResultList();
-        Assert.assertFalse(lista.isEmpty());
+        List<Order> list = typedQuery.getResultList();
+        Assert.assertFalse(list.isEmpty());
 
-        lista.forEach(obj -> System.out.println("ID: " + obj.getId()));
+        list.forEach(obj -> System.out.println("ID: " + obj.getId()));
     }
 
     @Test
