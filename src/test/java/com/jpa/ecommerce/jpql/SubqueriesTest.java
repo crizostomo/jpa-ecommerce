@@ -13,6 +13,20 @@ import java.util.List;
 public class SubqueriesTest extends EntityManagerTest {
 
     @Test
+    public void searchByUsingExists() {
+        String jpql = "select p from Product p " +
+                "where exists (select 1 from OrderItem oi2 " +
+                "join oi2.product p2 " +
+                "where p2 = p) ";
+
+        TypedQuery<Product> typedQuery = entityManager.createQuery(jpql, Product.class);
+        List<Product> list = typedQuery.getResultList();
+        Assert.assertFalse(list.isEmpty());
+
+        list.forEach(obj -> System.out.println("ID: " + obj.getId()));
+    }
+
+    @Test
     public void searchByUsingInVersion1() {
 //        String jpql = "select distinct o from Order o " +
 //                "join o.orderItems oi " +
