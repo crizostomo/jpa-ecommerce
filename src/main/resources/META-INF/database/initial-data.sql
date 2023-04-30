@@ -12,12 +12,14 @@ insert into `order` (id, client_id, creation_date, total, status) values (1, 1, 
 insert into `order` (id, client_id, creation_date, total, status) values (2, 1, date_sub(sysdate(), interval 5 day), 500.0, 'WAITING');
 insert into `order` (id, client_id, creation_date, total, status) values (3, 1, date_sub(sysdate(), interval 4 day), 3500.0, 'PAID');
 insert into `order` (id, client_id, creation_date, total, status) values (4, 2, date_sub(sysdate(), interval 2 day), 500.0, 'PAID');
+insert into `order` (id, client_id, creation_date, total, status) values (5, 1, date_sub(sysdate(), interval 2 day), 800.0, 'PAID');
 
 insert into order_item (order_id, product_id, product_price, quantity) values (1, 1, 500, 2);
 insert into order_item (order_id, product_id, product_price, quantity) values (1, 3, 1400, 1);
 insert into order_item (order_id, product_id, product_price, quantity) values (2, 1, 500, 1);
 insert into order_item (order_id, product_id, product_price, quantity) values (3, 4, 3500, 1);
 insert into order_item (order_id, product_id, product_price, quantity) values (4, 1, 500, 1);
+insert into order_item (order_id, product_id, product_price, quantity) values (5, 1, 800, 1);
 
 insert into category (name) values ('Electronics Products');
 insert into category (name) values ('Sci-Fi Books');
