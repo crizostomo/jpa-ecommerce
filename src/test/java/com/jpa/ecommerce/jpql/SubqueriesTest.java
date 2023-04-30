@@ -13,6 +13,21 @@ import java.util.List;
 public class SubqueriesTest extends EntityManagerTest {
 
     @Test
+    public void searchByUsingInExercise() {
+        String jpql = "select o from Order o " +
+                "where o.id in " +
+                "(select o2.id from OrderItem oi2 " +
+                "join oi2.order o2 join oi2.product pro2 join pro2.categories c2 where c2.id = 2)";
+
+        TypedQuery<Order> typedQuery = entityManager.createQuery(jpql, Order.class);
+
+        List<Order> lista = typedQuery.getResultList();
+        Assert.assertFalse(lista.isEmpty());
+
+        lista.forEach(obj -> System.out.println("ID: " + obj.getId()));
+    }
+
+    @Test
     public void searchByUsingExists() {
         String jpql = "select p from Product p " +
                 "where exists (select 1 from OrderItem oi2 " +
@@ -59,7 +74,7 @@ public class SubqueriesTest extends EntityManagerTest {
         list.forEach(obj -> System.out.println("ID: " + obj.getId()));
     }
 
-        @Test
+    @Test
     public void searchSubqueries() {
 // Good customers Version 2
         String jpql = "select c from Client c where " +
