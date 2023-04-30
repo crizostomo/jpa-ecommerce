@@ -13,6 +13,29 @@ import java.util.List;
 public class SubqueriesTest extends EntityManagerTest {
 
     @Test
+    public void searchByUsingAny() {
+//         All products that have been sold by a price different from the current one
+        String jpql = "select p from Product p where " +
+                "p.price <> ANY (select productPrice from OrderItem " +
+                "where product = p)";
+//        String jpql = "select p from Product p where " +
+//                "p.price <> SOME (select productPrice from OrderItem " +
+//                "where product = p)";
+
+//         All products that have been sold at least once by the current price
+//        String jpql = "select p from Product p where " +
+//                "p.price = ANY (select productPrice from OrderItem " +
+//                "where product = p)";
+
+        TypedQuery<Product> typedQuery = entityManager.createQuery(jpql, Product.class);
+
+        List<Product> list = typedQuery.getResultList();
+        Assert.assertFalse(list.isEmpty());
+
+        list.forEach(obj -> System.out.println("ID: " + obj.getId()));
+    }
+
+    @Test
     public void searchByUsingAll() {
 //         All products that have not been sold after the price increased
         String jpql = "select p from Product p where " +
