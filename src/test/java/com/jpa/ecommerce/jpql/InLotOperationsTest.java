@@ -17,7 +17,19 @@ public class InLotOperationsTest extends EntityManagerTest {
     private static final int INSERT_LIMIT = 4;
 
     @Test
-    public void updateInLot() {
+    public void RemovingInLot() {
+        entityManager.getTransaction().begin();
+
+        String jpql = "delete from Product p where p.id between 8 and 12";
+
+        Query query = entityManager.createQuery(jpql);
+        query.executeUpdate();
+
+        entityManager.getTransaction().commit();
+    }
+
+    @Test
+    public void updatingInLot() {
         entityManager.getTransaction().begin();
 
 //        String jpql = "update Product p set p.price = p.price + 1 " +
