@@ -8,6 +8,13 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@NamedQueries({
+        @NamedQuery(name = "Product.list", query = "select p from Product p"),
+        @NamedQuery(name = "Product.listByCategories", query = "select p from Product p " +
+                "where exists (select 1 from Category c2 " +
+                "join c2.products p2 where p2 = p " +
+                "and c2. id = :category)"),
+})
 @Entity
 @Getter
 @Setter

@@ -12,10 +12,10 @@ public class DynamicQueryTest extends EntityManagerTest {
 
     @Test
     public void executeDynamicSearch() {
-        Product searched = new Product();
-        searched.setName("GoPro Camera");
+        Product searchedProduct = new Product();
+        searchedProduct.setName("GoPro Camera");
 
-        List<Product> list = search(searched);
+        List<Product> list = search(searchedProduct);
 
         Assert.assertFalse(list.isEmpty());
         Assert.assertEquals("GoPro Camera Hero 7", list.get(0).getName());
