@@ -1,6 +1,7 @@
 package com.jpa.ecommerce.criteria;
 
 import com.jpa.ecommerce.EntityManagerTest;
+import com.jpa.ecommerce.dto.ProductDTO;
 import com.jpa.ecommerce.model.Client;
 import com.jpa.ecommerce.model.Order;
 import com.jpa.ecommerce.model.Product;
@@ -16,6 +17,21 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public class BasicCriteriaTest extends EntityManagerTest {
+
+    @Test
+    public void projectTheDTOResult() {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<ProductDTO> criteriaQuery = criteriaBuilder.createQuery(ProductDTO.class);
+        Root<Product> root = criteriaQuery.from(Product.class);
+
+        criteriaQuery.select(criteriaBuilder.construct(ProductDTO.class, root.get("id"), root.get("name")));
+
+        TypedQuery<ProductDTO> typedQuery = entityManager.createQuery(criteriaQuery);
+        List<ProductDTO> list = typedQuery.getResultList();
+        Assert.assertFalse(list.isEmpty());
+
+        list.forEach(dto -> System.out.println("ID: " + dto.getId() + ", " + "NAME: " + dto.getName()));
+    }
 
     @Test
     public void projectTheTupleResult() {
