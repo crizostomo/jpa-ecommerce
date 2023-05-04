@@ -15,6 +15,21 @@ import java.util.List;
 public class JoinCriteriaTest extends EntityManagerTest {
 
     @Test
+    public void usingOnInJoin() {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Order> criteriaQuery = criteriaBuilder.createQuery(Order.class);
+        Root<Order> root = criteriaQuery.from(Order.class);
+        Join<Order, Payment> joinPayment = root.join("payment");
+        joinPayment.on(criteriaBuilder.equal(joinPayment.get("status"), PaymentStatus.PROCESSING));
+
+        criteriaQuery.select(root);
+
+        TypedQuery<Order> typedQuery = entityManager.createQuery(criteriaQuery);
+        List<Order> list = typedQuery.getResultList();
+        Assert.assertTrue(list.size() == 2);
+    }
+
+    @Test
     public void usingJoinInOrder() {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Order> criteriaQuery = criteriaBuilder.createQuery(Order.class);
