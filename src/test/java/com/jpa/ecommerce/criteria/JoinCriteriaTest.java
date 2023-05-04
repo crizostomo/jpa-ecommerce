@@ -2,17 +2,30 @@ package com.jpa.ecommerce.criteria;
 
 import com.jpa.ecommerce.EntityManagerTest;
 import com.jpa.ecommerce.model.*;
+import com.jpa.ecommerce.model.Order;
 import jakarta.persistence.TypedQuery;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Join;
-import jakarta.persistence.criteria.Root;
+import jakarta.persistence.criteria.*;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.List;
 
 public class JoinCriteriaTest extends EntityManagerTest {
+
+    @Test
+    public void usingLeftOuterJoin() {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Order> criteriaQuery = criteriaBuilder.createQuery(Order.class);
+        Root<Order> root = criteriaQuery.from(Order.class);
+        Join<Order, Payment> joinPayment = root.join("payment", JoinType.LEFT);
+        // We have 5 Orders and 4 Payments linked to them, but since it is LEFT Join it will bring all th orders
+
+        criteriaQuery.select(root);
+
+        TypedQuery<Order> typedQuery = entityManager.createQuery(criteriaQuery);
+        List<Order> list = typedQuery.getResultList();
+        Assert.assertTrue(list.size() == 4);
+    }
 
     @Test
     public void usingOnInJoin() {
