@@ -4,6 +4,7 @@ import com.jpa.ecommerce.EntityManagerTest;
 import com.jpa.ecommerce.model.Client;
 import com.jpa.ecommerce.model.Order;
 import com.jpa.ecommerce.model.Product;
+import jakarta.persistence.Tuple;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
@@ -15,6 +16,23 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public class BasicCriteriaTest extends EntityManagerTest {
+
+    @Test
+    public void projectTheTupleResult() {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Tuple> criteriaQuery = criteriaBuilder.createTupleQuery();
+        Root<Product> root = criteriaQuery.from(Product.class);
+
+//        criteriaQuery.select(criteriaBuilder.tuple(root.get("id"), root.get("name")));
+        criteriaQuery.select(criteriaBuilder.tuple(root.get("id").alias("id"), root.get("name").alias("name")));
+
+        TypedQuery<Tuple> typedQuery = entityManager.createQuery(criteriaQuery);
+        List<Tuple> list = typedQuery.getResultList();
+        Assert.assertFalse(list.isEmpty());
+
+//        list.forEach(t -> System.out.println("ID: " + t.get(0) + ", " + "NAME: " + t.get(1)));
+        list.forEach(t -> System.out.println("ID: " + t.get("id") + ", " + "NAME: " + t.get("name")));
+    }
 
     @Test
     public void projectTheResult() {
