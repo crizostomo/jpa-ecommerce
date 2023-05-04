@@ -3,6 +3,7 @@ package com.jpa.ecommerce.criteria;
 import com.jpa.ecommerce.EntityManagerTest;
 import com.jpa.ecommerce.model.Client;
 import com.jpa.ecommerce.model.Order;
+import com.jpa.ecommerce.model.Product;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
@@ -14,6 +15,19 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public class BasicCriteriaTest extends EntityManagerTest {
+
+    @Test
+    public void returnAllProductsExercise() {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Product> criteriaQuery = criteriaBuilder.createQuery(Product.class);
+        Root<Product> root = criteriaQuery.from(Product.class);
+
+        criteriaQuery.select(root);
+
+        TypedQuery<Product> typedQuery = entityManager.createQuery(criteriaQuery);
+        List<Product> list = typedQuery.getResultList();
+        Assert.assertFalse(list.isEmpty());
+    }
 
     @Test
     public void selectAnAttributeBigDecimal() {
