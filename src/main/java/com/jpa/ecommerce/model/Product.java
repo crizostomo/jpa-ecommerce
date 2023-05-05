@@ -48,7 +48,7 @@ public class Product extends IntegerBaseEntity {
             joinColumns = @JoinColumn(name = "product_id", nullable = false,
                     foreignKey = @ForeignKey(name = "fk_category_product_product")),
             inverseJoinColumns = @JoinColumn(name = "category_id", nullable = false,
-                    foreignKey = @ForeignKey(name = "fk_category_product_product")))
+                    foreignKey = @ForeignKey(name = "fk_category_product_category")))
     private List<Category> categories;
 
     @OneToOne(mappedBy = "product")

@@ -13,6 +13,44 @@ import java.util.List;
 public class JoinCriteriaTest extends EntityManagerTest {
 
     @Test
+    public void usingJoinFetchCast() {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Client> criteriaQuery = criteriaBuilder.createQuery(Client.class);
+        Root<Order> root = criteriaQuery.from(Order.class);
+//        Join<Order, Client> clientJoin = (Join<Order, Client>) root.<Order, Client>join("client");
+        Join<Order, Client> clientJoin = root.join("client");
+
+        criteriaQuery.select(clientJoin);
+
+        criteriaQuery.where(criteriaBuilder.equal(clientJoin.get("id"), 1));
+
+        TypedQuery<Client> typedQuery = entityManager.createQuery(criteriaQuery);
+
+        Client client = typedQuery.getSingleResult();
+        Assert.assertNotNull(client);
+        Assert.assertTrue(client.getId().equals(1));
+    }
+
+    @Test
+    public void usingJoinFetch() {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Order> criteriaQuery = criteriaBuilder.createQuery(Order.class);
+        Root<Order> root = criteriaQuery.from(Order.class);
+        root.fetch("orderItems");
+        root.fetch("invoice", JoinType.LEFT); // To retrieve all orders that have or not connection with invoices
+
+        criteriaQuery.select(root);
+
+        criteriaQuery.where(criteriaBuilder.equal(root.get("id"), 1));
+
+        TypedQuery<Order> typedQuery = entityManager.createQuery(criteriaQuery);
+
+        Order order = typedQuery.getSingleResult();
+        Assert.assertNotNull(order);
+        Assert.assertFalse(order.getOrderItems().isEmpty());
+    }
+
+    @Test
     public void usingLeftOuterJoin() {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Order> criteriaQuery = criteriaBuilder.createQuery(Order.class);
