@@ -12,6 +12,25 @@ import java.util.List;
 
 public class JoinCriteriaTest extends EntityManagerTest {
 
+    @Test // Similar to the exercise in the Class PathExpressionTest - searchOrdersWithASpecificProduct
+    public void searchOrdersWithASpecificProduct() {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Order> criteriaQuery = criteriaBuilder.createQuery(Order.class);
+        Root<Order> root = criteriaQuery.from(Order.class);
+        Join<OrderItem, Product> orderItemProductJoin = root
+                .join("orderItems")
+                .join("product");
+
+        criteriaQuery.select(root);
+
+        criteriaQuery.where(criteriaBuilder.equal(orderItemProductJoin.get("id"), 1));
+
+        TypedQuery<Order> typedQuery = entityManager.createQuery(criteriaQuery);
+
+        List<Order> list = typedQuery.getResultList();
+        Assert.assertFalse(list.isEmpty());
+    }
+
     @Test
     public void usingJoinFetchCast() {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
