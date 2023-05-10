@@ -14,7 +14,6 @@ import java.util.List;
 public class MetaModelTest extends EntityManagerTest {
 
 
-    // Class 10.13 Needs to be updated, there is an issue by generating the classes
     @Test
     public void metaModel() {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
