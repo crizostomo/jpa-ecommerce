@@ -12,9 +12,29 @@ import jakarta.persistence.criteria.Root;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class ConditionalExpressionsCriteriaTest extends EntityManagerTest {
+
+    @Test // Similar to the exercise in the Class ConditionalExpressionsTest - greaterLesser
+    public void greaterLesser() {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Product> criteriaQuery = criteriaBuilder.createQuery(Product.class);
+        Root<Product> root = criteriaQuery.from(Product.class);
+
+        criteriaQuery.select(root);
+
+        criteriaQuery.where(criteriaBuilder.greaterThan(root.get(Product_.price), new BigDecimal(800)),
+                criteriaBuilder.lessThan(root.get(Product_.price), new BigDecimal(3500)));
+//        criteriaQuery.where(criteriaBuilder.greaterThan(root.get("price"), 799)); // Another option if the type is not important
+
+        TypedQuery<Product> typedQuery = entityManager.createQuery(criteriaQuery);
+        List<Product> productList = typedQuery.getResultList();
+        Assert.assertFalse(productList.isEmpty());
+
+        productList.forEach(p -> System.out.println("ID: " + p.getId() + ", Name: " + p.getName() + ", Price: " + p.getPrice()));
+    }
 
     @Test // Similar to the exercise in the Class ConditionalExpressionsTest - isEmpty
     public void isEmpty() {
