@@ -98,7 +98,7 @@ public class ConditionalExpressionsTest extends EntityManagerTest {
     }
 
     @Test
-    public void useOfBetween() {
+    public void usingBetween() {
 //        String jpql = "select p from Product p where p.price between :initialPrice and :finalPrice";
         String jpql = "select o from Order o where o.creationDate between :initialDate and :finalDate";
 

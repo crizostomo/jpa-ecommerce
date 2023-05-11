@@ -15,8 +15,25 @@ import java.util.List;
 
 public class ConditionalExpressionsCriteriaTest extends EntityManagerTest {
 
-    @Test // Similar to the exercise in the Class ConditionalExpressionsTest - useOfBetween
-    public void useOfBetween() {
+    @Test // Similar to the exercise in the Class ConditionalExpressionsTest - usingDifferent
+    public void usingDifferent() {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Order> criteriaQuery = criteriaBuilder.createQuery(Order.class);
+        Root<Order> root = criteriaQuery.from(Order.class);
+
+        criteriaQuery.select(root);
+
+        criteriaQuery.where(criteriaBuilder.notEqual(root.get(Order_.total), new BigDecimal(500)));
+
+        TypedQuery<Order> typedQuery = entityManager.createQuery(criteriaQuery);
+        List<Order> orderList = typedQuery.getResultList();
+        Assert.assertFalse(orderList.isEmpty());
+
+        orderList.forEach(p -> System.out.println("ID: " + p.getId() + ", Total: " + p.getTotal()));
+    }
+
+    @Test // Similar to the exercise in the Class ConditionalExpressionsTest - usingBetween
+    public void usingBetween() {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Order> criteriaQuery = criteriaBuilder.createQuery(Order.class);
         Root<Order> root = criteriaQuery.from(Order.class);
