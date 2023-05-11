@@ -1,10 +1,7 @@
 package com.jpa.ecommerce.criteria;
 
 import com.jpa.ecommerce.EntityManagerTest;
-import com.jpa.ecommerce.model.Client;
-import com.jpa.ecommerce.model.Client_;
-import com.jpa.ecommerce.model.Product;
-import com.jpa.ecommerce.model.Product_;
+import com.jpa.ecommerce.model.*;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
@@ -13,9 +10,25 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class ConditionalExpressionsCriteriaTest extends EntityManagerTest {
+
+    @Test // Similar to the exercise in the Class ConditionalExpressionsTest - greaterLesserWithDaTES
+    public void greaterLesserWithDates() {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Order> criteriaQuery = criteriaBuilder.createQuery(Order.class);
+        Root<Order> root = criteriaQuery.from(Order.class);
+
+        criteriaQuery.select(root);
+
+        criteriaQuery.where(criteriaBuilder.greaterThanOrEqualTo(root.get(Order_.creationDate), LocalDateTime.now().minusDays(3)));
+
+        TypedQuery<Order> typedQuery = entityManager.createQuery(criteriaQuery);
+        List<Order> orderList = typedQuery.getResultList();
+        Assert.assertFalse(orderList.isEmpty());
+    }
 
     @Test // Similar to the exercise in the Class ConditionalExpressionsTest - greaterLesser
     public void greaterLesser() {
