@@ -15,6 +15,30 @@ import java.util.List;
 
 public class ConditionalExpressionsCriteriaTest extends EntityManagerTest {
 
+    @Test
+    public void usingLogicalOperators() {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Order> criteriaQuery = criteriaBuilder.createQuery(Order.class);
+        Root<Order> root = criteriaQuery.from(Order.class);
+
+        criteriaQuery.select(root);
+
+        // select o from Order o where (total > 500 and status = 'WAITING' or 'PAID') and creationDate > ?
+        criteriaQuery.where(criteriaBuilder.or(
+                        criteriaBuilder.equal(root.get(Order_.status), OrderStatus.WAITING),
+                criteriaBuilder.equal(root.get(Order_.status), OrderStatus.PAID)
+                ),
+                criteriaBuilder.greaterThan(root.get(Order_.creationDate), LocalDateTime.now().minusDays(5)),
+                criteriaBuilder.greaterThan(root.get(Order_.total), new BigDecimal(500))
+        );
+
+        TypedQuery<Order> typedQuery = entityManager.createQuery(criteriaQuery);
+        List<Order> orderList = typedQuery.getResultList();
+        Assert.assertFalse(orderList.isEmpty());
+
+        orderList.forEach(p -> System.out.println("ID: " + p.getId() + ", Total: " + p.getTotal() + ", Status: " + p.getStatus()));
+    }
+
     @Test // Similar to the exercise in the Class ConditionalExpressionsTest - usingDifferent
     public void usingDifferent() {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
