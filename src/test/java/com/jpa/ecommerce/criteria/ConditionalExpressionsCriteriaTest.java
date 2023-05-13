@@ -16,6 +16,21 @@ import java.util.List;
 public class ConditionalExpressionsCriteriaTest extends EntityManagerTest {
 
     @Test
+    public void orderingResults() {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Client> criteriaQuery = criteriaBuilder.createQuery(Client.class);
+        Root<Client> root = criteriaQuery.from(Client.class);
+
+        criteriaQuery.orderBy(criteriaBuilder.asc(root.get(Client_.name)));
+
+        TypedQuery<Client> typedQuery = entityManager.createQuery(criteriaQuery);
+        List<Client> orderList = typedQuery.getResultList();
+        Assert.assertFalse(orderList.isEmpty());
+
+        orderList.forEach(c -> System.out.println("ID: " + c.getId() + ", Name: " + c.getName()));
+    }
+
+    @Test
     public void usingLogicalOperators() {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Order> criteriaQuery = criteriaBuilder.createQuery(Order.class);
