@@ -24,10 +24,10 @@ public class ConditionalExpressionsCriteriaTest extends EntityManagerTest {
         criteriaQuery.orderBy(criteriaBuilder.asc(root.get(Client_.name)));
 
         TypedQuery<Client> typedQuery = entityManager.createQuery(criteriaQuery);
-        List<Client> orderList = typedQuery.getResultList();
-        Assert.assertFalse(orderList.isEmpty());
+        List<Client> clientList = typedQuery.getResultList();
+        Assert.assertFalse(clientList.isEmpty());
 
-        orderList.forEach(c -> System.out.println("ID: " + c.getId() + ", Name: " + c.getName()));
+        clientList.forEach(c -> System.out.println("ID: " + c.getId() + ", Name: " + c.getName()));
     }
 
     @Test
