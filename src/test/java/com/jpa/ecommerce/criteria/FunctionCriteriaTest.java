@@ -15,6 +15,29 @@ import java.util.List;
 public class FunctionCriteriaTest extends EntityManagerTest {
 
     @Test
+    public void applyNativeFunction() { // Similar to the exercise in the Class FunctionTest - applyNativeFunction
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Object[]> criteriaQuery = criteriaBuilder.createQuery(Object[].class);
+        Root<Order> root = criteriaQuery.from(Order.class);
+
+        criteriaQuery.multiselect(root.get(Order_.id),
+                criteriaBuilder.function("dayname", String.class, root.get(Order_.creationDate))
+        );
+
+        criteriaQuery.where(criteriaBuilder.isTrue(
+                criteriaBuilder.function("invoice_above_average", Boolean.class, root.get(Order_.total))));
+
+        TypedQuery<Object[]> typedQuery = entityManager.createQuery(criteriaQuery);
+        List<Object[]> list = typedQuery.getResultList();
+        Assert.assertFalse(list.isEmpty());
+
+        list.forEach(arr -> System.out.println(
+                arr[0]
+                        + ", dayname: " + arr[1]
+        ));
+    }
+
+    @Test
     public void applyCollectionFunction() { // Similar to the exercise in the Class FunctionTest - applyCollectionFunction
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Object[]> criteriaQuery = criteriaBuilder.createQuery(Object[].class);
