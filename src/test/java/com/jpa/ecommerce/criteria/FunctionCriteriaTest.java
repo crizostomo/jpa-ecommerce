@@ -15,6 +15,28 @@ import java.util.List;
 public class FunctionCriteriaTest extends EntityManagerTest {
 
     @Test
+    public void applyCollectionFunction() { // Similar to the exercise in the Class FunctionTest - applyCollectionFunction
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Object[]> criteriaQuery = criteriaBuilder.createQuery(Object[].class);
+        Root<Order> root = criteriaQuery.from(Order.class);
+
+        criteriaQuery.multiselect(root.get(Order_.id),
+                criteriaBuilder.size(root.get(Order_.orderItems))
+        );
+
+        criteriaQuery.where(criteriaBuilder.greaterThan(criteriaBuilder.size(root.get(Order_.orderItems)), 1));
+
+        TypedQuery<Object[]> typedQuery = entityManager.createQuery(criteriaQuery);
+        List<Object[]> list = typedQuery.getResultList();
+        Assert.assertFalse(list.isEmpty());
+
+        list.forEach(arr -> System.out.println(
+                arr[0]
+                        + ", size: " + arr[1]
+        ));
+    }
+
+    @Test
     public void applyNumberFunction() {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Object[]> criteriaQuery = criteriaBuilder.createQuery(Object[].class);
@@ -26,7 +48,7 @@ public class FunctionCriteriaTest extends EntityManagerTest {
                 criteriaBuilder.abs(criteriaBuilder.prod(root.get(Order_.id), -1)),
                 criteriaBuilder.mod(root.get(Order_.id), 2),
                 criteriaBuilder.sqrt(root.get(Order_.total))
-                );
+        );
 
         TypedQuery<Object[]> typedQuery = entityManager.createQuery(criteriaQuery);
         List<Object[]> list = typedQuery.getResultList();
