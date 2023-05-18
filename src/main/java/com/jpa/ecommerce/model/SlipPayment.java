@@ -5,6 +5,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 @Getter
 @Setter
 @Entity
@@ -13,4 +15,7 @@ import lombok.Setter;
 public class SlipPayment extends Payment {
 
     private String barcode;
+
+    @Column(name = "due_date")
+    private LocalDate dueDate;
 }
