@@ -36,8 +36,8 @@ public class FunctionCriteriaTest extends EntityManagerTest {
                 "count: " + arr[0]
                         + ", avg: " + arr[1]
                         + ", sum: " + arr[2]
-                        + ", min: " + arr[2]
-                        + ", max: " + arr[2]
+                        + ", min: " + arr[3]
+                        + ", max: " + arr[4]
         ));
     }
 
