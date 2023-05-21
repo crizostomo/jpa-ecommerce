@@ -2,6 +2,7 @@ package com.jpa.ecommerce.criteria;
 
 import com.jpa.ecommerce.EntityManagerTest;
 import com.jpa.ecommerce.model.*;
+import com.jpa.ecommerce.model.Order;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.*;
 import org.junit.Assert;
@@ -10,6 +11,32 @@ import org.junit.Test;
 import java.util.List;
 
 public class GroupByCriteriaTest extends EntityManagerTest {
+
+    @Test
+    public void groupResultExercise() {
+        // Total amount of sales by client
+        // String jpql = "select c.name, sum(oi.productPrice) from OrderItem oi " +
+        // "join oi.order o join o.client c " +
+        // "group by c.id";
+
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Object[]> criteriaQuery = criteriaBuilder.createQuery(Object[].class);
+        Root<OrderItem> root = criteriaQuery.from(OrderItem.class);
+        Join<OrderItem, Order> orderItemOrderJoin = root.join(OrderItem_.order);
+        Join<Order, Client> orderClientJoin = orderItemOrderJoin.join(Order_.client);
+
+        criteriaQuery.multiselect(orderClientJoin.get(Client_.name),
+                criteriaBuilder.sum(root.get(OrderItem_.productPrice))
+        );
+
+        criteriaQuery.groupBy(orderClientJoin.get(Category_.id));
+
+        TypedQuery<Object[]> typedQuery = entityManager.createQuery(criteriaQuery);
+        List<Object[]> list = typedQuery.getResultList();
+        Assert.assertFalse(list.isEmpty());
+
+        list.forEach(arr -> System.out.println("Client Name: " + arr[0] + ", Sum: " + arr[1]));
+    }
 
     @Test
     public void groupResult2() {
