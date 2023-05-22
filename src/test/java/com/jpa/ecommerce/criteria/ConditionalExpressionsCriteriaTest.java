@@ -16,6 +16,33 @@ import java.util.List;
 public class ConditionalExpressionsCriteriaTest extends EntityManagerTest {
 
     @Test
+    public void usingCaseExpression() {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Object[]> criteriaQuery = criteriaBuilder.createQuery(Object[].class);
+        Root<Order> root = criteriaQuery.from(Order.class);
+
+        criteriaQuery.multiselect(
+//                root.get(Order_.id),
+//                criteriaBuilder.selectCase(root.get(Order_.STATUS))
+//                        .when(OrderStatus.PAID.toString(), "It was Paid")
+//                        .when(OrderStatus.CANCELLED.toString(), "It was cancelled")
+//                        .otherwise(root.get(Order_.status))
+
+                criteriaBuilder.selectCase(root.get(Order_.payment).type().as(String.class))
+                        .when("slip", "Paid by Bank Slip")
+                        .when("card", "Paid by Credit Card")
+                        .otherwise("It was not identified")
+        );
+
+        TypedQuery<Object[]> typedQuery = entityManager.createQuery(criteriaQuery);
+
+        List<Object[]> list = typedQuery.getResultList();
+        Assert.assertFalse(list.isEmpty());
+
+        list.forEach(arr -> System.out.println(arr[0] + ", " + arr[1]));
+    }
+
+    @Test
     public void orderingResults() {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Client> criteriaQuery = criteriaBuilder.createQuery(Client.class);
