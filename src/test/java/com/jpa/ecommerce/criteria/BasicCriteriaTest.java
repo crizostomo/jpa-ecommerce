@@ -2,9 +2,7 @@ package com.jpa.ecommerce.criteria;
 
 import com.jpa.ecommerce.EntityManagerTest;
 import com.jpa.ecommerce.dto.ProductDTO;
-import com.jpa.ecommerce.model.Client;
-import com.jpa.ecommerce.model.Order;
-import com.jpa.ecommerce.model.Product;
+import com.jpa.ecommerce.model.*;
 import jakarta.persistence.Tuple;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -17,6 +15,38 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public class BasicCriteriaTest extends EntityManagerTest {
+
+    @Test
+    public void usingDistinct() {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Order> criteriaQuery = criteriaBuilder.createQuery(Order.class);
+        Root<Order> root = criteriaQuery.from(Order.class);
+        root.join(Order_.orderItems);
+
+        criteriaQuery.select(root).distinct(true);
+//        criteriaQuery.distinct(true);
+
+        TypedQuery<Order> typedQuery = entityManager.createQuery(criteriaQuery);
+        List<Order> list = typedQuery.getResultList();
+
+        list.forEach(p -> System.out.println("ID: " + p.getId()));
+    }
+
+    @Test
+    public void orderingResults() {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Client> criteriaQuery = criteriaBuilder.createQuery(Client.class);
+        Root<Client> root = criteriaQuery.from(Client.class);
+
+        criteriaQuery.orderBy(criteriaBuilder.desc(root.get(Client_.name)));
+
+        TypedQuery<Client> typedQuery = entityManager.createQuery(criteriaQuery);
+
+        List<Client> list = typedQuery.getResultList();
+        Assert.assertFalse(list.isEmpty());
+
+        list.forEach(c -> System.out.println(c.getId() + ", " + c.getName()));
+    }
 
     @Test
     public void projectTheDTOResult() {
