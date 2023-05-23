@@ -1,0 +1,70 @@
+package com.jpa.ecommerce.criteria;
+
+import com.jpa.ecommerce.EntityManagerTest;
+import com.jpa.ecommerce.model.Order;
+import com.jpa.ecommerce.model.Order_;
+import com.jpa.ecommerce.model.Product;
+import com.jpa.ecommerce.model.Product_;
+import jakarta.persistence.TypedQuery;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
+import jakarta.persistence.criteria.Subquery;
+import org.junit.Assert;
+import org.junit.Test;
+
+import java.math.BigDecimal;
+import java.util.List;
+
+public class SubqueriesCriteriaTest extends EntityManagerTest {
+
+    @Test
+    public void searchSubqueries02() {
+// All products above the sales average
+//        String jpql = "select o from Order o where " +
+//                "o.total > (select avg(total) from Order o2)"; // o2 is optional
+
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Order> criteriaQuery = criteriaBuilder.createQuery(Order.class);
+        Root<Order> root = criteriaQuery.from(Order.class);
+
+        criteriaQuery.select(root);
+
+        Subquery<BigDecimal> subquery = criteriaQuery.subquery(BigDecimal.class);
+        Root<Order> subqueryRoot = subquery.from(Order.class);
+        subquery.select(criteriaBuilder.avg(subqueryRoot.get(Order_.total)).as(BigDecimal.class));
+
+        criteriaQuery.where(criteriaBuilder.greaterThan(root.get(Order_.total), subquery));
+
+        TypedQuery<Order> typedQuery = entityManager.createQuery(criteriaQuery);
+        List<Order> list = typedQuery.getResultList();
+        Assert.assertFalse(list.isEmpty());
+
+        list.forEach(obj -> System.out.println("ID: " + obj.getId() + ", Total: " + obj.getTotal()));
+    }
+
+    @Test
+    public void searchSubqueries01() {
+//         The most expensive product
+//        String jpql = "select p from Product p where " +
+//                "p.price = (select max(price) from Product p2)"; // p2 is optional
+
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Product> criteriaQuery = criteriaBuilder.createQuery(Product.class);
+        Root<Product> root = criteriaQuery.from(Product.class);
+
+        criteriaQuery.select(root);
+
+        Subquery<BigDecimal> subquery = criteriaQuery.subquery(BigDecimal.class);
+        Root<Product> subqueryRoot = subquery.from(Product.class);
+        subquery.select(criteriaBuilder.max(subqueryRoot.get(Product_.price)));
+
+        criteriaQuery.where(criteriaBuilder.equal(root.get(Product_.price), subquery));
+
+        TypedQuery<Product> typedQuery = entityManager.createQuery(criteriaQuery);
+        List<Product> list = typedQuery.getResultList();
+        Assert.assertFalse(list.isEmpty());
+
+        list.forEach(obj -> System.out.println("ID: " + obj.getId() + ", Name: " + obj.getName() + ", Price: " + obj.getPrice()));
+    }
+}
