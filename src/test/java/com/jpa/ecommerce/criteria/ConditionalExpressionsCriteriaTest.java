@@ -11,9 +11,51 @@ import org.junit.Test;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 
 public class ConditionalExpressionsCriteriaTest extends EntityManagerTest {
+
+    @Test
+    public void usingINExpression02() {
+        Client client01 = entityManager.find(Client.class, 1);
+
+        Client client02 = new Client();
+        client02.setId(2);
+
+//        List<Client> clientList = Arrays.asList(client01, client02);
+        List<Integer> clientList = Arrays.asList(client01.getId(), client02.getId());
+
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Order> criteriaQuery = criteriaBuilder.createQuery(Order.class);
+        Root<Order> root = criteriaQuery.from(Order.class);
+
+        criteriaQuery.select(root);
+
+//        criteriaQuery.where(root.get(Order_.client).in(clientList));
+        criteriaQuery.where(root.get(Order_.client).get(Client_.id).in(clientList));
+
+        TypedQuery<Order> typedQuery = entityManager.createQuery(criteriaQuery);
+        List<Order> list = typedQuery.getResultList();
+        Assert.assertFalse(list.isEmpty());
+    }
+
+    @Test
+    public void usingINExpression01() {
+        List<Integer> ids = Arrays.asList(1, 3, 4, 6);
+
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Order> criteriaQuery = criteriaBuilder.createQuery(Order.class);
+        Root<Order> root = criteriaQuery.from(Order.class);
+
+        criteriaQuery.select(root);
+
+        criteriaQuery.where(root.get(Order_.id).in(ids));
+
+        TypedQuery<Order> typedQuery = entityManager.createQuery(criteriaQuery);
+        List<Order> list = typedQuery.getResultList();
+        Assert.assertFalse(list.isEmpty());
+    }
 
     @Test
     public void usingCaseExpression() {
