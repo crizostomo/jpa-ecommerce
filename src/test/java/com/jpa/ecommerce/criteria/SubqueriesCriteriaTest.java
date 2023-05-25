@@ -1,10 +1,7 @@
 package com.jpa.ecommerce.criteria;
 
 import com.jpa.ecommerce.EntityManagerTest;
-import com.jpa.ecommerce.model.Order;
-import com.jpa.ecommerce.model.Order_;
-import com.jpa.ecommerce.model.Product;
-import com.jpa.ecommerce.model.Product_;
+import com.jpa.ecommerce.model.*;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
@@ -17,6 +14,34 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public class SubqueriesCriteriaTest extends EntityManagerTest {
+
+    @Test
+    public void searchSubqueries03() {
+// Good customers Version 1
+//        String jpql = "select c from Client c where " +
+//                "1300 < (select sum(o.total) from c.orders o)";
+
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Client> criteriaQuery = criteriaBuilder.createQuery(Client.class);
+        Root<Client> root = criteriaQuery.from(Client.class);
+
+        criteriaQuery.select(root);
+
+        Subquery<BigDecimal> subquery = criteriaQuery.subquery(BigDecimal.class);
+        Root<Order> subqueryRoot = subquery.from(Order.class);
+        subquery.select(criteriaBuilder.sum(subqueryRoot.get(Order_.total)));
+        subquery.where(criteriaBuilder.equal(root, subqueryRoot.get(Order_.client)));
+//        subquery.where(criteriaBuilder.equal(root.get(Client_.id), subqueryRoot.get(Order_.client).get(Client_.id))); // The same as showed above
+
+        criteriaQuery.where(criteriaBuilder.greaterThan(subquery, new BigDecimal(1300)));
+
+        TypedQuery<Client> typedQuery = entityManager.createQuery(criteriaQuery);
+
+        List<Client> list = typedQuery.getResultList();
+        Assert.assertFalse(list.isEmpty());
+
+        list.forEach(obj -> System.out.println("ID: " + obj.getId() + ", Name: " + obj.getName()));
+    }
 
     @Test
     public void searchSubqueries02() {
