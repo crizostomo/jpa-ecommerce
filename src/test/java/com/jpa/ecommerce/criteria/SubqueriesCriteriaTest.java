@@ -2,11 +2,9 @@ package com.jpa.ecommerce.criteria;
 
 import com.jpa.ecommerce.EntityManagerTest;
 import com.jpa.ecommerce.model.*;
+import com.jpa.ecommerce.model.Order;
 import jakarta.persistence.TypedQuery;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Root;
-import jakarta.persistence.criteria.Subquery;
+import jakarta.persistence.criteria.*;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -14,6 +12,36 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public class SubqueriesCriteriaTest extends EntityManagerTest {
+
+    @Test
+    public void searchByUsingIN() {
+//        String jpql = "select o from Order o " +
+//                "join o.orderItems oi " +
+//                "join oi.product pro " +
+//                "where pro.price > 100 ";
+
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Order> criteriaQuery = criteriaBuilder.createQuery(Order.class);
+        Root<Order> root = criteriaQuery.from(Order.class);
+
+        criteriaQuery.select(root);
+
+        Subquery<Integer> subquery = criteriaQuery.subquery(Integer.class);
+        Root<OrderItem> subqueryRoot = subquery.from(OrderItem.class);
+        Join<OrderItem, Order> subqueryJoinOrder = subqueryRoot.join(OrderItem_.order);
+        Join<OrderItem, Product> subqueryJoinProduct = subqueryRoot.join(OrderItem_.product);
+        subquery.select(subqueryJoinOrder.get(Order_.id));
+        subquery.where(criteriaBuilder.greaterThan(subqueryJoinProduct.get(Product_.price), new BigDecimal(100)));
+
+        criteriaQuery.where(root.get(Order_.id).in(subquery));
+
+        TypedQuery<Order> typedQuery = entityManager.createQuery(criteriaQuery);
+
+        List<Order> list = typedQuery.getResultList();
+        Assert.assertFalse(list.isEmpty());
+
+        list.forEach(obj -> System.out.println("ID: " + obj.getId()));
+    }
 
     @Test
     public void searchSubqueries03() {
