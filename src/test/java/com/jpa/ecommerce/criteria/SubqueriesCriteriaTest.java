@@ -14,6 +14,35 @@ import java.util.List;
 public class SubqueriesCriteriaTest extends EntityManagerTest {
 
     @Test
+    public void searchByUsingExists() {
+//         All products that have already being sold
+//        String jpql = "select p from Product p " +
+//                "where exists (select 1 from OrderItem oi2 " +
+//                "join oi2.product p2 " +
+//                "where p2 = p) ";
+
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Product> criteriaQuery = criteriaBuilder.createQuery(Product.class);
+        Root<Product> root = criteriaQuery.from(Product.class);
+
+        criteriaQuery.select(root);
+
+        Subquery<Integer> subquery = criteriaQuery.subquery(Integer.class);
+        Root<OrderItem> subqueryRoot = subquery.from(OrderItem.class);
+        subquery.select(criteriaBuilder.literal(1));
+        subquery.where(criteriaBuilder.equal(subqueryRoot.get(OrderItem_.product), root.get(Product_.id)));
+
+        criteriaQuery.where(criteriaBuilder.exists(subquery));
+
+        TypedQuery<Product> typedQuery = entityManager.createQuery(criteriaQuery);
+
+        List<Product> list = typedQuery.getResultList();
+        Assert.assertFalse(list.isEmpty());
+
+        list.forEach(obj -> System.out.println("ID: " + obj.getId()));
+    }
+
+    @Test
     public void searchByUsingIN() {
 //        String jpql = "select o from Order o " +
 //                "join o.orderItems oi " +
