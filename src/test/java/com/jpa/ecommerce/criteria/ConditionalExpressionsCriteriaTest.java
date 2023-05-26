@@ -64,16 +64,16 @@ public class ConditionalExpressionsCriteriaTest extends EntityManagerTest {
         Root<Order> root = criteriaQuery.from(Order.class);
 
         criteriaQuery.multiselect(
-//                root.get(Order_.id),
-//                criteriaBuilder.selectCase(root.get(Order_.STATUS))
-//                        .when(OrderStatus.PAID.toString(), "It was Paid")
-//                        .when(OrderStatus.CANCELLED.toString(), "It was cancelled")
-//                        .otherwise(root.get(Order_.status))
+                root.get(Order_.id),
+                criteriaBuilder.selectCase(root.get(Order_.STATUS))
+                        .when(OrderStatus.PAID, "It was Paid")
+                        .when(OrderStatus.CANCELLED, "It was cancelled")
+                        .otherwise(root.get(Order_.status)).as(String.class)
 
-                criteriaBuilder.selectCase(root.get(Order_.payment).type().as(String.class))
-                        .when("slip", "Paid by Bank Slip")
-                        .when("card", "Paid by Credit Card")
-                        .otherwise("It was not identified")
+//                criteriaBuilder.selectCase(root.get(Order_.payment).type().as(String.class))
+//                        .when("slip", "Paid by Bank Slip")
+//                        .when("card", "Paid by Credit Card")
+//                        .otherwise("It was not identified")
         );
 
         TypedQuery<Object[]> typedQuery = entityManager.createQuery(criteriaQuery);
