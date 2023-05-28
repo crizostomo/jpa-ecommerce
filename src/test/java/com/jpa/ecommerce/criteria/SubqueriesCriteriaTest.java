@@ -14,6 +14,29 @@ import java.util.List;
 public class SubqueriesCriteriaTest extends EntityManagerTest {
 
     @Test
+    public void searchByUsingISubqueryExercise() {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Client> criteriaQuery = criteriaBuilder.createQuery(Client.class);
+        Root<Client> root = criteriaQuery.from(Client.class);
+
+        criteriaQuery.select(root);
+
+        Subquery<Long> subquery = criteriaQuery.subquery(Long.class);
+        Root<Order> subqueryRoot = subquery.from(Order.class);
+        subquery.select(criteriaBuilder.count(criteriaBuilder.literal(1)));
+        subquery.where(criteriaBuilder.equal(subqueryRoot.get(Order_.client), root));
+
+        criteriaQuery.where(criteriaBuilder.greaterThan(subquery, 2L));
+
+        TypedQuery<Client> typedQuery = entityManager.createQuery(criteriaQuery);
+
+        List<Client> list = typedQuery.getResultList();
+        Assert.assertFalse(list.isEmpty());
+
+        list.forEach(obj -> System.out.println("ID: " + obj.getId() + ", Name: " + obj.getName()));
+    }
+
+    @Test
     public void searchByUsingExists() {
 //         All products that have already being sold
 //        String jpql = "select p from Product p " +
