@@ -14,6 +14,36 @@ import java.util.List;
 public class SubqueriesCriteriaTest extends EntityManagerTest {
 
     @Test
+    public void searchByUsingInExercise() { // Search all orders that have the "2" identifier
+//        String jpql = "select o from Order o " +
+//                "where o.id in " +
+//                "(select o2.id from OrderItem oi2 " +
+//                "join oi2.order o2 join oi2.product pro2 join pro2.categories c2 where c2.id = 2)";
+
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Order> criteriaQuery = criteriaBuilder.createQuery(Order.class);
+        Root<Order> root = criteriaQuery.from(Order.class);
+
+        criteriaQuery.select(root);
+
+        Subquery<Integer> subquery = criteriaQuery.subquery(Integer.class);
+        Root<OrderItem> subqueryRoot = subquery.from(OrderItem.class);
+        Join<OrderItem, Product> orderItemProductJoin = subqueryRoot.join(OrderItem_.product);
+        Join<Product, Category> productCategoryJoin = orderItemProductJoin.join(Product_.categories);
+        subquery.select(subqueryRoot.get(OrderItem_.id).get(OrderItemId_.orderId));
+        subquery.where(criteriaBuilder.equal(productCategoryJoin.get(Category_.id), 2));
+
+        criteriaQuery.where(root.get(Order_.id).in(subquery));
+
+        TypedQuery<Order> typedQuery = entityManager.createQuery(criteriaQuery);
+
+        List<Order> list = typedQuery.getResultList();
+        Assert.assertFalse(list.isEmpty());
+
+        list.forEach(obj -> System.out.println("ID: " + obj.getId()));
+    }
+
+    @Test
     public void searchByUsingISubqueryExercise() {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Client> criteriaQuery = criteriaBuilder.createQuery(Client.class);
