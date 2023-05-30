@@ -14,6 +14,41 @@ import java.util.List;
 public class SubqueriesCriteriaTest extends EntityManagerTest {
 
     @Test
+    public void searchByUsingAnyExercise() {
+//         All products that have been sold with the same price
+//        String jpql = "select distinct p from OrderItem oi join oi.product p where " +
+//                "oi.productPrice = ALL (select productPrice from OrderItem " +
+//                "where product = p and id <> oi.id)";
+
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Product> criteriaQuery = criteriaBuilder.createQuery(Product.class);
+        Root<OrderItem> root = criteriaQuery.from(OrderItem.class);
+
+        criteriaQuery.select(root.get(OrderItem_.product));
+        criteriaQuery.distinct(true);
+
+        Subquery<Product> subquery = criteriaQuery.subquery(Product.class);
+        Root<OrderItem> subqueryRoot = subquery.from(OrderItem.class);
+        Join<OrderItem, Product> join = subqueryRoot.join(OrderItem_.product);
+
+        subquery.select(join);
+        subquery.where(
+                criteriaBuilder.equal(subqueryRoot.get(OrderItem_.productPrice), root.get(OrderItem_.productPrice)),
+                criteriaBuilder.equal(subqueryRoot.get(OrderItem_.product), root.get(OrderItem_.product)),
+                criteriaBuilder.notEqual(subqueryRoot, root)
+        );
+
+        criteriaQuery.where(criteriaBuilder.exists(subquery));
+
+        TypedQuery<Product> typedQuery = entityManager.createQuery(criteriaQuery);
+
+        List<Product> list = typedQuery.getResultList();
+        Assert.assertFalse(list.isEmpty());
+
+        list.forEach(obj -> System.out.println("ID: " + obj.getId()));
+    }
+
+    @Test
     public void searchByUsingAny02() {
 //         All products that have been sold with a different price from the current one
 //        String jpql = "select p from Product p where " +
