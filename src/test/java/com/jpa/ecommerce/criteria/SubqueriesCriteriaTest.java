@@ -14,6 +14,62 @@ import java.util.List;
 public class SubqueriesCriteriaTest extends EntityManagerTest {
 
     @Test
+    public void searchByUsingAny02() {
+//         All products that have been sold with a different price from the current one
+//        String jpql = "select p from Product p where " +
+//                "p.price = ANY (select productPrice from OrderItem " +
+//                "where product <> p)";
+
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Product> criteriaQuery = criteriaBuilder.createQuery(Product.class);
+        Root<Product> root = criteriaQuery.from(Product.class);
+
+        criteriaQuery.select(root);
+
+        Subquery<BigDecimal> subquery = criteriaQuery.subquery(BigDecimal.class);
+        Root<OrderItem> subqueryRoot = subquery.from(OrderItem.class);
+        subquery.select(subqueryRoot.get(OrderItem_.productPrice));
+        subquery.where(criteriaBuilder.equal(subqueryRoot.get(OrderItem_.product), root));
+
+        criteriaQuery.where(criteriaBuilder.notEqual(root.get(Product_.price), criteriaBuilder.any(subquery)));
+
+        TypedQuery<Product> typedQuery = entityManager.createQuery(criteriaQuery);
+
+        List<Product> list = typedQuery.getResultList();
+        Assert.assertFalse(list.isEmpty());
+
+        list.forEach(obj -> System.out.println("ID: " + obj.getId()));
+    }
+
+    @Test
+    public void searchByUsingAny01() {
+//         All products that have been sold at least once in the current price
+//        String jpql = "select p from Product p where " +
+//                "p.price = ANY (select productPrice from OrderItem " +
+//                "where product = p)";
+
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Product> criteriaQuery = criteriaBuilder.createQuery(Product.class);
+        Root<Product> root = criteriaQuery.from(Product.class);
+
+        criteriaQuery.select(root);
+
+        Subquery<BigDecimal> subquery = criteriaQuery.subquery(BigDecimal.class);
+        Root<OrderItem> subqueryRoot = subquery.from(OrderItem.class);
+        subquery.select(subqueryRoot.get(OrderItem_.productPrice));
+        subquery.where(criteriaBuilder.equal(subqueryRoot.get(OrderItem_.product), root));
+
+        criteriaQuery.where(criteriaBuilder.equal(root.get(Product_.price), criteriaBuilder.any(subquery)));
+
+        TypedQuery<Product> typedQuery = entityManager.createQuery(criteriaQuery);
+
+        List<Product> list = typedQuery.getResultList();
+        Assert.assertFalse(list.isEmpty());
+
+        list.forEach(obj -> System.out.println("ID: " + obj.getId()));
+    }
+
+    @Test
     public void searchByUsingAll02() {
 //         All products that have not been sold after the price increased, and it should have at least one sale
 //        String jpql = "select p from Product p where " +
