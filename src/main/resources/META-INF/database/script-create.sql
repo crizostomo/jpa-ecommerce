@@ -1,5 +1,11 @@
 create table testing (id integer not null auto_increment, primary key (id)) engine=InnoDB;
 
+create table store_product (id integer not null auto_increment, name varchar(100), description longtext, price decimal(19, 2), creation_date datetime(6), last_update_date datetime(6), photo longblob, primary key (id)) engine=InnoDB;
+
+create table product_ecm (prd_id integer not null auto_increment, prd_name varchar(100), prd_description longtext, prd_price decimal(19, 2), prd_creation_date datetime(6), prd_last_update_date datetime(6), prd_photo longblob, primary key (prd_id)) engine=InnoDB;
+
+create table product_erp (id integer not null auto_increment, name varchar(100), description longtext, price decimal(19, 2), primary key (id)) engine=InnoDB;
+
 create function invoice_above_average(`value` double) returns boolean reads sql data return `value` > (select avg(total) from `order`);
 
 --create table category (id integer not null auto_increment, name varchar(100) not null, father_category_id integer, primary key (id)) engine=InnoDB;

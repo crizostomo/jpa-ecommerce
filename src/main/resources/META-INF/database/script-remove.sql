@@ -1,5 +1,9 @@
 drop table if exists testing;
 
+drop table if exists product_store;
+drop table if exists product_ecm;
+drop table if exists product_erp;
+
 drop function if exists invoice_above_average;
 
 --alter table category drop foreign key fk_category_category_father;
