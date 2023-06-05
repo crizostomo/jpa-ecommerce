@@ -1,6 +1,7 @@
 package com.jpa.ecommerce.nativeQuerySearchTest;
 
 import com.jpa.ecommerce.EntityManagerTest;
+import com.jpa.ecommerce.model.OrderItem;
 import com.jpa.ecommerce.model.Product;
 import jakarta.persistence.Query;
 import org.junit.Test;
@@ -9,6 +10,29 @@ import java.util.List;
 
 
 public class NativeSearchTest extends EntityManagerTest {
+
+    @Test
+    public void useSQLResultSetMapping02() {
+        String sql = "select oi.*, p.* from order_item oi join product p on p.id = oi.product_id";
+
+        Query query = entityManager.createNativeQuery(sql, "order_item_product.OrderItem-Product");
+
+        List<Object[]> list = query.getResultList();
+
+        list.stream().forEach(obj -> System.out.println(String.format("Order => ID: %s, Product => ID: %s, Name: %s",
+                ((OrderItem)obj[0]).getId().getOrderId(), ((Product)obj[1]).getId(), ((Product)obj[1]).getName())));
+    }
+
+    @Test
+    public void useSQLResultSetMapping01() {
+        String sql = "select id, name, description, creation_date, last_update_date, price, photo from store_product";
+
+        Query query = entityManager.createNativeQuery(sql, "product_store.Product");
+
+        List<Product> list = query.getResultList();
+
+        list.stream().forEach(obj -> System.out.println(String.format("Product => ID: %s, Name: %s", obj.getId(), obj.getName())));
+    }
 
     @Test
     public void inputParameters() {

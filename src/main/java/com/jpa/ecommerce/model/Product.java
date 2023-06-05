@@ -18,6 +18,11 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@SqlResultSetMappings({
+        @SqlResultSetMapping(name = "product_store.Product", entities = {
+                @EntityResult(entityClass = Product.class)
+        })
+})
 @Table(name = "product",
         uniqueConstraints = {@UniqueConstraint(name = "unq_name", columnNames = {"name"})},
         indexes = {@Index(name = "idx_name", columnList = "name")})
