@@ -46,17 +46,17 @@ insert into payment (order_id, status, card_number, payment_type, barcode, due_d
 
 insert into invoice (order_id, xml, issuing_date) values (2, '<xml />', sysdate());
 
-insert into product_store (id, name, price, creation_date, description) values (101, 'Kindle', 800.0, date_sub(sysdate(), interval 1 day), 'Check it out the new Kindle.');
-insert into product_store (id, name, price, creation_date, description) values (103, 'GoPro Camera Hero 7', 1400.0, date_sub(sysdate(), interval 1 day), 'Check it out the new Camera.');
-insert into product_store (id, name, price, creation_date, description) values (104, 'Kindle III', 3500.0, date_sub(sysdate(), interval 1 day), 'Check it out the new Kindle III.');
-insert into product_store (id, name, price, creation_date, description) values (105, 'Tech Mic', 50.0, date_sub(sysdate(), interval 1 day), 'New tech mic');
+insert into store_product (id, name, price, creation_date, description) values (101, 'Kindle', 800.0, date_sub(sysdate(), interval 1 day), 'Check it out the new Kindle.');
+insert into store_product (id, name, price, creation_date, description) values (103, 'GoPro Camera Hero 7', 1400.0, date_sub(sysdate(), interval 1 day), 'Check it out the new Camera.');
+insert into store_product (id, name, price, creation_date, description) values (104, 'Kindle III', 3500.0, date_sub(sysdate(), interval 1 day), 'Check it out the new Kindle III.');
+insert into store_product (id, name, price, creation_date, description) values (105, 'Tech Mic', 50.0, date_sub(sysdate(), interval 1 day), 'New tech mic');
 
-insert into product_ecm (id, name, price, creation_date, description) values (201, 'Kindle', 800.0, date_sub(sysdate(), interval 1 day), 'Check it out the new Kindle.');
-insert into product_ecm (id, name, price, creation_date, description) values (203, 'GoPro Camera Hero 7', 1400.0, date_sub(sysdate(), interval 1 day), 'Check it out the new Camera.');
-insert into product_ecm (id, name, price, creation_date, description) values (204, 'Kindle III', 3500.0, date_sub(sysdate(), interval 1 day), 'Check it out the new Kindle III.');
-insert into product_ecm (id, name, price, creation_date, description) values (205, 'Tech Mic', 50.0, date_sub(sysdate(), interval 1 day), 'New tech mic');
+insert into product_ecm (prd_id, prd_name, prd_price, prd_creation_date, prd_description) values (201, 'Kindle', 800.0, date_sub(sysdate(), interval 1 day), 'Check it out the new Kindle.');
+insert into product_ecm (prd_id, prd_name, prd_price, prd_creation_date, prd_description) values (203, 'GoPro Camera Hero 7', 1400.0, date_sub(sysdate(), interval 1 day), 'Check it out the new Camera.');
+insert into product_ecm (prd_id, prd_name, prd_price, prd_creation_date, prd_description) values (204, 'Kindle III', 3500.0, date_sub(sysdate(), interval 1 day), 'Check it out the new Kindle III.');
+insert into product_ecm (prd_id, prd_name, prd_price, prd_creation_date, prd_description) values (205, 'Tech Mic', 50.0, date_sub(sysdate(), interval 1 day), 'New tech mic');
 
-insert into product_erp (id, name, price, creation_date, description) values (301, 'Kindle', 800.0, date_sub(sysdate(), interval 1 day), 'Check it out the new Kindle.');
-insert into product_erp (id, name, price, creation_date, description) values (303, 'GoPro Camera Hero 7', 1400.0, date_sub(sysdate(), interval 1 day), 'Check it out the new Camera.');
-insert into product_erp (id, name, price, creation_date, description) values (304, 'Kindle III', 3500.0, date_sub(sysdate(), interval 1 day), 'Check it out the new Kindle III.');
-insert into product_erp (id, name, price, creation_date, description) values (305, 'Tech Mic', 50.0, date_sub(sysdate(), interval 1 day), 'New tech mic');
+insert into product_erp (id, name, price, description) values (301, 'Kindle', 800.0, 'Check it out the new Kindle.');
+insert into product_erp (id, name, price, description) values (303, 'GoPro Camera Hero 7', 1400.0, 'Check it out the new Camera.');
+insert into product_erp (id, name, price, description) values (304, 'Kindle III', 3500.0, 'Check it out the new Kindle III.');
+insert into product_erp (id, name, price, description) values (305, 'Tech Mic', 50.0, 'New tech mic');

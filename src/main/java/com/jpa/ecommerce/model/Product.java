@@ -21,6 +21,18 @@ import java.util.List;
 @SqlResultSetMappings({
         @SqlResultSetMapping(name = "product_store.Product", entities = {
                 @EntityResult(entityClass = Product.class)
+        }),
+        @SqlResultSetMapping(name = "product_ecm.Product", entities = {
+                @EntityResult(entityClass = Product.class,
+                fields = {
+                        @FieldResult(name = "id", column = "prd_id"),
+                        @FieldResult(name = "name", column = "prd_name"),
+                        @FieldResult(name = "description", column = "prd_description"),
+                        @FieldResult(name = "price", column = "prd_price"),
+                        @FieldResult(name = "photo", column = "prd_photo"),
+                        @FieldResult(name = "creationDate", column = "prd_creation_date"),
+                        @FieldResult(name = "lastUpdateDate", column = "prd_last_update_date")
+                })
         })
 })
 @Table(name = "product",

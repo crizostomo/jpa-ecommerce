@@ -12,6 +12,17 @@ import java.util.List;
 public class NativeSearchTest extends EntityManagerTest {
 
     @Test
+    public void useFieldResult() {
+        String sql = "select * from product_ecm";
+
+        Query query = entityManager.createNativeQuery(sql, "product_ecm.Product");
+
+        List<Product> list = query.getResultList();
+
+        list.stream().forEach(obj -> System.out.println(String.format("Product => ID: %s, Name: %s", obj.getId(), obj.getName())));
+    }
+
+    @Test
     public void useSQLResultSetMapping02() {
         String sql = "select oi.*, p.* from order_item oi join product p on p.id = oi.product_id";
 
