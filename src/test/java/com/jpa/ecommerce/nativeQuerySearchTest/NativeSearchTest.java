@@ -1,6 +1,7 @@
 package com.jpa.ecommerce.nativeQuerySearchTest;
 
 import com.jpa.ecommerce.EntityManagerTest;
+import com.jpa.ecommerce.dto.ProductDTO;
 import com.jpa.ecommerce.model.OrderItem;
 import com.jpa.ecommerce.model.Product;
 import jakarta.persistence.Query;
@@ -10,6 +11,17 @@ import java.util.List;
 
 
 public class NativeSearchTest extends EntityManagerTest {
+
+    @Test
+    public void useColumnResultDTO() {
+        String sql = "select * from product_ecm";
+
+        Query query = entityManager.createNativeQuery(sql, "product_ecm.ProductDTO");
+
+        List<ProductDTO> list = query.getResultList();
+
+        list.stream().forEach(obj -> System.out.println(String.format("ProductDTO => ID: %s, Name: %s", obj.getId(), obj.getName())));
+    }
 
     @Test
     public void useFieldResult() {

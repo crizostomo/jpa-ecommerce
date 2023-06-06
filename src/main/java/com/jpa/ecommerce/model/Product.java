@@ -1,5 +1,6 @@
 package com.jpa.ecommerce.model;
 
+import com.jpa.ecommerce.dto.ProductDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,15 +25,22 @@ import java.util.List;
         }),
         @SqlResultSetMapping(name = "product_ecm.Product", entities = {
                 @EntityResult(entityClass = Product.class,
-                fields = {
-                        @FieldResult(name = "id", column = "prd_id"),
-                        @FieldResult(name = "name", column = "prd_name"),
-                        @FieldResult(name = "description", column = "prd_description"),
-                        @FieldResult(name = "price", column = "prd_price"),
-                        @FieldResult(name = "photo", column = "prd_photo"),
-                        @FieldResult(name = "creationDate", column = "prd_creation_date"),
-                        @FieldResult(name = "lastUpdateDate", column = "prd_last_update_date")
-                })
+                        fields = {
+                                @FieldResult(name = "id", column = "prd_id"),
+                                @FieldResult(name = "name", column = "prd_name"),
+                                @FieldResult(name = "description", column = "prd_description"),
+                                @FieldResult(name = "price", column = "prd_price"),
+                                @FieldResult(name = "photo", column = "prd_photo"),
+                                @FieldResult(name = "creationDate", column = "prd_creation_date"),
+                                @FieldResult(name = "lastUpdateDate", column = "prd_last_update_date")
+                        })
+        }),
+        @SqlResultSetMapping(name = "product_ecm.ProductDTO", classes = {
+                @ConstructorResult(targetClass = ProductDTO.class,
+                        columns = {
+                        @ColumnResult(name = "prd_id", type = Integer.class),
+                        @ColumnResult(name = "prd_name", type = String.class)
+                        })
         })
 })
 @Table(name = "product",
@@ -59,7 +67,7 @@ public class Product extends IntegerBaseEntity {
     @OneToMany(mappedBy = "product")
     private List<OrderItem> orderItems;
 
-//    @ManyToMany(cascade = CascadeType.MERGE) // For the class CascadeTypePersistTest
+    //    @ManyToMany(cascade = CascadeType.MERGE) // For the class CascadeTypePersistTest
     @ManyToMany
     @JoinTable(name = "product_category",
             joinColumns = @JoinColumn(name = "product_id", nullable = false,
