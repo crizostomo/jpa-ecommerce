@@ -6,6 +6,8 @@ create table product_ecm (prd_id integer not null auto_increment, prd_name varch
 
 create table product_erp (id integer not null auto_increment, name varchar(100), description longtext, price decimal(19, 2), primary key (id)) engine=InnoDB;
 
+create table category_ecm (cat_id integer not null auto_increment, cat_name varchar(100), cat_father_category_id integer, primary key (cat_id)) engine=InnoDB;
+
 create function invoice_above_average(`value` double) returns boolean reads sql data return `value` > (select avg(total) from `order`);
 
 --create table category (id integer not null auto_increment, name varchar(100) not null, father_category_id integer, primary key (id)) engine=InnoDB;

@@ -2,6 +2,7 @@ package com.jpa.ecommerce.nativeQuerySearchTest;
 
 import com.jpa.ecommerce.EntityManagerTest;
 import com.jpa.ecommerce.dto.ProductDTO;
+import com.jpa.ecommerce.model.Category;
 import com.jpa.ecommerce.model.OrderItem;
 import com.jpa.ecommerce.model.Product;
 import jakarta.persistence.Query;
@@ -11,6 +12,16 @@ import java.util.List;
 
 
 public class NativeSearchTest extends EntityManagerTest {
+
+    @Test
+    public void useXML() { // Use file in resources.META-INF.searches.category.xml and resources.META-INF.persistence.xml
+        Query query = entityManager.createNamedQuery("category_ecm.list");
+
+        List<Category> list = query.getResultList();
+
+        list.stream().forEach(obj -> System.out.println(
+                String.format("Category => ID: %s, Name: %s", obj.getId(), obj.getName())));
+    }
 
     @Test
     public void useNamedNativeQuery02() {
@@ -61,7 +72,7 @@ public class NativeSearchTest extends EntityManagerTest {
         List<Object[]> list = query.getResultList();
 
         list.stream().forEach(obj -> System.out.println(String.format("Order => ID: %s, Product => ID: %s, Name: %s",
-                ((OrderItem)obj[0]).getId().getOrderId(), ((Product)obj[1]).getId(), ((Product)obj[1]).getName())));
+                ((OrderItem) obj[0]).getId().getOrderId(), ((Product) obj[1]).getId(), ((Product) obj[1]).getName())));
     }
 
     @Test
@@ -78,7 +89,7 @@ public class NativeSearchTest extends EntityManagerTest {
     @Test
     public void inputParameters() {
         String sql = "select prd_id id, prd_name name, prd_description description, prd_creation_date creation_date, " +
-                     "prd_last_update_date prd_last_update_date, prd_price price, prd_photo photo from product_ecm where prd_id = :id";
+                "prd_last_update_date prd_last_update_date, prd_price price, prd_photo photo from product_ecm where prd_id = :id";
 
         Query query = entityManager.createNativeQuery(sql, Product.class);
         query.setParameter("id", 201);

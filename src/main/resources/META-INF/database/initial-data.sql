@@ -60,3 +60,12 @@ insert into product_erp (id, name, price, description) values (301, 'Kindle', 80
 insert into product_erp (id, name, price, description) values (303, 'GoPro Camera Hero 7', 1400.0, 'Check it out the new Camera.');
 insert into product_erp (id, name, price, description) values (304, 'Kindle III', 3500.0, 'Check it out the new Kindle III.');
 insert into product_erp (id, name, price, description) values (305, 'Tech Mic', 50.0, 'New tech mic');
+
+insert into category_ecm (cat_id, cat_name) values (201, 'Cat Electronics Products');
+insert into category_ecm (cat_id, cat_name) values (202, 'Cat Sci-Fi Books');
+insert into category_ecm (cat_id, cat_name) values (203, 'Cat Sports');
+insert into category_ecm (cat_id, cat_name) values (204, 'Cat Soccer');
+insert into category_ecm (cat_id, cat_name) values (205, 'Cat Swimming');
+insert into category_ecm (cat_id, cat_name) values (206, 'Cat Laptops');
+insert into category_ecm (cat_id, cat_name) values (207, 'Cat Smartphones');
+insert into category_ecm (cat_id, cat_name) values (208, 'Cat Cameras');
