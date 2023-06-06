@@ -19,6 +19,15 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@NamedNativeQueries({
+        @NamedNativeQuery(name = "store_product.list",
+                query = "select id, name, description, creation_date, last_update_date, price, photo from store_product",
+                resultClass = Product.class),
+        @NamedNativeQuery(name = "product_ecm.list",
+                query = "select * from store_product",
+                resultSetMapping = "product_ecm.Product", // Used below
+                resultClass = Product.class)
+})
 @SqlResultSetMappings({
         @SqlResultSetMapping(name = "product_store.Product", entities = {
                 @EntityResult(entityClass = Product.class)
@@ -38,8 +47,8 @@ import java.util.List;
         @SqlResultSetMapping(name = "product_ecm.ProductDTO", classes = {
                 @ConstructorResult(targetClass = ProductDTO.class,
                         columns = {
-                        @ColumnResult(name = "prd_id", type = Integer.class),
-                        @ColumnResult(name = "prd_name", type = String.class)
+                                @ColumnResult(name = "prd_id", type = Integer.class),
+                                @ColumnResult(name = "prd_name", type = String.class)
                         })
         })
 })

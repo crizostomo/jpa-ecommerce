@@ -13,6 +13,24 @@ import java.util.List;
 public class NativeSearchTest extends EntityManagerTest {
 
     @Test
+    public void useNamedNativeQuery02() {
+        Query query = entityManager.createNamedQuery("product_ecm.list");
+
+        List<Product> list = query.getResultList();
+
+        list.stream().forEach(obj -> System.out.println(String.format("Product => ID: %s, Name: %s", obj.getId(), obj.getName())));
+    }
+
+    @Test
+    public void useNamedNativeQuery01() {
+        Query query = entityManager.createNamedQuery("store_product.list");
+
+        List<Product> list = query.getResultList();
+
+        list.stream().forEach(obj -> System.out.println(String.format("Product => ID: %s, Name: %s", obj.getId(), obj.getName())));
+    }
+
+    @Test
     public void useColumnResultDTO() {
         String sql = "select * from product_ecm";
 
