@@ -1,6 +1,7 @@
 package com.jpa.ecommerce.nativeQuerySearchTest;
 
 import com.jpa.ecommerce.EntityManagerTest;
+import com.jpa.ecommerce.dto.CategoryDTO;
 import com.jpa.ecommerce.dto.ProductDTO;
 import com.jpa.ecommerce.model.Category;
 import com.jpa.ecommerce.model.OrderItem;
@@ -12,6 +13,15 @@ import java.util.List;
 
 
 public class NativeSearchTest extends EntityManagerTest {
+
+    @Test
+    public void mappingSearchForExternalDTOFileExercise() {
+        Query query = entityManager.createNativeQuery("category_ecm.list.dto");
+
+        List<CategoryDTO> list = query.getResultList();
+
+        list.stream().forEach(obj -> System.out.println(String.format("CategoryDTO => ID: %s, Name: %s", obj.getId(), obj.getName())));
+    }
 
     @Test
     public void useXML() { // Use file in resources.META-INF.searches.category.xml and resources.META-INF.persistence.xml

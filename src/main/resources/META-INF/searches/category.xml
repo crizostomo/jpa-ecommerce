@@ -9,12 +9,23 @@
         <query>select * from category_ecm</query>
     </named-native-query>
 
+    <named-native-query name="category_ecm.list.dto" result-set-mapping="category_ecm.CategoryDTO">
+        <query>select cat_id, cat_name from category_ecm</query>
+    </named-native-query>
+
     <sql-result-set-mapping name="category_ecm.Category">
         <entity-result entity-class="com.jpa.ecommerce.model.Category">
             <field-result name="id" column="cat_id"/>
             <field-result name="name" column="cat_name"/>
             <field-result name="fatherCategory" column="cat_father_category_id"/>
         </entity-result>
+    </sql-result-set-mapping>
+
+    <sql-result-set-mapping name="category_ecm.CategoryDTO">
+        <constructor-result target-class="com.jpa.ecommerce.model.CategoryDTO">
+            <column name="cat_id"/>
+            <column name="cat_name"/>
+        </constructor-result>
     </sql-result-set-mapping>
 
 </entity-mappings>
