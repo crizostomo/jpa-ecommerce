@@ -16,7 +16,7 @@ public class NativeSearchTest extends EntityManagerTest {
 
     @Test
     public void mappingSearchForExternalDTOFileExercise() {
-        Query query = entityManager.createNativeQuery("category_ecm.list.dto");
+        Query query = entityManager.createNamedQuery("category_ecm.list.dto");
 
         List<CategoryDTO> list = query.getResultList();
 

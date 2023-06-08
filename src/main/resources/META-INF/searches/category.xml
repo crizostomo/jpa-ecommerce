@@ -22,7 +22,7 @@
     </sql-result-set-mapping>
 
     <sql-result-set-mapping name="category_ecm.CategoryDTO">
-        <constructor-result target-class="com.jpa.ecommerce.model.CategoryDTO">
+        <constructor-result target-class="com.jpa.ecommerce.dto.CategoryDTO">
             <column name="cat_id"/>
             <column name="cat_name"/>
         </constructor-result>
