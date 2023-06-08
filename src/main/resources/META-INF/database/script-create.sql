@@ -8,11 +8,11 @@ create table product_erp (id integer not null auto_increment, name varchar(100),
 
 create table category_ecm (cat_id integer not null auto_increment, cat_name varchar(100), cat_father_category_id integer, primary key (cat_id)) engine=InnoDB;
 
-create function invoice_above_average(`value` double) returns boolean reads sql data return `value` > (select avg(total) from `order`);
+create function invoice_above_average(worth double) returns boolean reads sql data return worth > (select avg(total) from `order`);
 
 create procedure search_product_name(in product_id int, out product_name varchar(255)) begin select name into product_name from product where id = product_id; end
 
-create procedure bought_above_average(in ano integer) begin select cli.*, clid.* from client cli join client_detail clid on clid.client_id = cli.id join `order` ord on ord.client_id = cli.id where ord.status = 'PAID' and year(ord.creation_date) = `year` group by ord.client_id having sum(ord.total) >= (select avg(total_per_client.sum_total) from (select sum(ord2.total) sum_total from `order` ord2 where ord2.status = 'PAID' and year(ord2.creation_date) = ano group by ord2.client_id) as total_per_client); end
+create procedure bought_above_average(in ano integer) begin select cli.*, clid.* from client cli join client_detail clid on clid.client_id = cli.id join `order` ord on ord.client_id = cli.id where ord.status = 'PAID' and year(ord.creation_date) = ano group by ord.client_id having sum(ord.total) >= (select avg(total_per_client.sum_total) from (select sum(ord2.total) sum_total from `order` ord2 where ord2.status = 'PAID' and year(ord2.creation_date) = ano group by ord2.client_id) as total_per_client); end
 
 create procedure adjust_product_price(in product_id int, in percentage_adjust double, out adjusted_price double) begin declare product_price double; select price into product_price from product where id = product_id; set adjusted_price = product_price + (product_price * percentage_adjust); update product set price = adjusted_price where id = product_id; end
 

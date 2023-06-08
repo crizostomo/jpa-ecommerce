@@ -7,6 +7,12 @@ drop table if exists category_ecm;
 
 drop function if exists invoice_above_average;
 
+drop procedure if exists search_product_name;
+
+drop procedure if exists bought_above_average;
+
+drop procedure if exists adjust_product_price;
+
 --alter table category drop foreign key fk_category_category_father;
 --alter table client_contact drop foreign key fk_client_contact_client;
 --alter table client_detail drop foreign key fk_client_detail_client;

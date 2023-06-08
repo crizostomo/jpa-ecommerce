@@ -1,12 +1,28 @@
 package com.jpa.ecommerce.nativeQuerySearchTest;
 
 import com.jpa.ecommerce.EntityManagerTest;
+import com.jpa.ecommerce.model.Client;
 import jakarta.persistence.ParameterMode;
 import jakarta.persistence.StoredProcedureQuery;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.List;
+
 public class StoredProceduresTest extends EntityManagerTest {
+
+    @Test
+    public void receiveProcedureList() {
+        StoredProcedureQuery storedProcedureQuery = entityManager.createStoredProcedureQuery("bought_above_average", Client.class);
+
+        storedProcedureQuery.registerStoredProcedureParameter("ano", Integer.class, ParameterMode.IN);
+
+        storedProcedureQuery.setParameter("ano", 2023);
+
+        List<Client> list = storedProcedureQuery.getResultList();
+
+        Assert.assertFalse(list.isEmpty());
+    }
 
     @Test
     public void useInAndOutParameters() {
