@@ -16,6 +16,8 @@ create procedure bought_above_average(in ano integer) begin select cli.*, clid.*
 
 create procedure adjust_product_price(in product_id int, in percentage_adjust double, out adjusted_price double) begin declare product_price double; select price into product_price from product where id = product_id; set adjusted_price = product_price + (product_price * percentage_adjust); update product set price = adjusted_price where id = product_id; end
 
+create view view_clients_above_average as select cli.*, clid.* from client cli join client_detail clid on clid.client_id = cli.id join `order` ord on ord.client_id = cli.id where ord.status = 'PAID' and year(ord.creation_date) = year(current_date) group by ord.client_id having sum(ord.total) >= (select avg(total_per_client.sum_total) from (select sum(ord2.total) sum_total from `order` ord2 where ord2.status = 'PAID' and year(ord2.creation_date) = year(current_date) group by ord2.client_id) as total_per_client);
+
 --create table category (id integer not null auto_increment, name varchar(100) not null, father_category_id integer, primary key (id)) engine=InnoDB;
 --create table client (id integer not null auto_increment, cpf varchar(14) not null, name varchar(100) not null, primary key (id)) engine=InnoDB;
 --create table client_contact (client_id integer not null, description varchar(255), type varchar(255) not null, primary key (client_id, type)) engine=InnoDB;
