@@ -11,12 +11,17 @@ import java.util.Map;
 @Getter
 @Setter
 @Entity
+@NamedStoredProcedureQuery(name = "bought_above_average", procedureName = "bought_above_average",
+        resultClasses = Client.class,
+        parameters = {
+                @StoredProcedureParameter(name = "ano", type = Integer.class, mode = ParameterMode.IN)
+        })
 @SecondaryTable(name = "client_detail",
         pkJoinColumns = @PrimaryKeyJoinColumn(name = "client_id"),
         foreignKey = @ForeignKey(name = "fk_client_detail_client"))
 @Table(name = "client",
         uniqueConstraints = {@UniqueConstraint(name = "unq_cpf", columnNames = {"cpf"})},
-        indexes = { @Index(name = "idx_name", columnList = "name")})
+        indexes = {@Index(name = "idx_name", columnList = "name")})
 public class Client extends IntegerBaseEntity {
 
     private String name;
@@ -26,7 +31,7 @@ public class Client extends IntegerBaseEntity {
     @ElementCollection
     @CollectionTable(name = "client_contact",
             joinColumns = @JoinColumn(name = "client_id",
-            foreignKey = @ForeignKey(name = "fk_client_contact_client")))
+                    foreignKey = @ForeignKey(name = "fk_client_contact_client")))
     @MapKeyColumn(name = "type")
     @Column(name = "description")
     private Map<String, String> contact;

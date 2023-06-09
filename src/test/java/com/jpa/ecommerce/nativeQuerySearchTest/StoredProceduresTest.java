@@ -13,6 +13,17 @@ import java.util.List;
 public class StoredProceduresTest extends EntityManagerTest {
 
     @Test
+    public void callNamedStoredProcedure() {
+        StoredProcedureQuery storedProcedureQuery = entityManager.createNamedStoredProcedureQuery("bought_above_average");
+
+        storedProcedureQuery.setParameter("ano", 2023);
+
+        List<Client> list = storedProcedureQuery.getResultList();
+
+        Assert.assertFalse(list.isEmpty());
+    }
+
+    @Test
     public void updateProductPriceExercise() {
         StoredProcedureQuery storedProcedureQuery = entityManager.createStoredProcedureQuery("adjust_product_price");
 
