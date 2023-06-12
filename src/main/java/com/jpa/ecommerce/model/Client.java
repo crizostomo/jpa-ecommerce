@@ -1,6 +1,9 @@
 package com.jpa.ecommerce.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,8 +27,13 @@ import java.util.Map;
         indexes = {@Index(name = "idx_name", columnList = "name")})
 public class Client extends IntegerBaseEntity {
 
+    @NotBlank
+    @Column(length = 100, nullable = false)
     private String name;
 
+    @NotNull
+    @Pattern(regexp = "(^\\d{3}\\x2E\\d{3}\\x2E\\d{3}\\x2D\\d{2}$)")
+    @Column(length = 14, nullable = false)
     private String cpf;
 
     @ElementCollection

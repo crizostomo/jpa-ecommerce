@@ -2,6 +2,10 @@ package com.jpa.ecommerce.model;
 
 import com.jpa.ecommerce.listener.CreateInvoiceListener;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Positive;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,6 +21,7 @@ import java.util.List;
 @Table(name = "`order`")
 public class Order extends IntegerBaseEntity {
 
+    @NotNull
     @ManyToOne(optional = false)
     @JoinColumn(name = "client_id", nullable = false,
             foreignKey = @ForeignKey(name = "fk_order_client")) // We do not need since the attribute client will join the attribute id
@@ -28,11 +33,15 @@ public class Order extends IntegerBaseEntity {
 //            cascade = CascadeType.PERSIST,
 //            orphanRemoval = true) // For OneToOne/OneToMany --> Equivalent to cascade.Remove and needs cascade method to be used | // For the class CascadeTypeRemoveTest
     @OneToMany(mappedBy = "order")
+    @NotEmpty
     private List<OrderItem> orderItems;
 
+    @PastOrPresent
+    @NotNull
     @Column(name = "creation_date")
     private LocalDateTime creationDate;
 
+    @PastOrPresent
     @Column(name = "last_update_date")
     private LocalDateTime lastUpdateDate;
 
@@ -42,8 +51,12 @@ public class Order extends IntegerBaseEntity {
     @OneToOne(mappedBy = "order")
     private Invoice invoice;
 
+    @NotNull
+    @Positive
+    @Column(nullable = false)
     private BigDecimal total;
 
+    @NotNull
     @Column(length = 30, nullable = false)
     @Enumerated(EnumType.STRING)
     private OrderStatus status;

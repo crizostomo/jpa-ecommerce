@@ -2,6 +2,10 @@ package com.jpa.ecommerce.model;
 
 import com.jpa.ecommerce.dto.ProductDTO;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Positive;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -57,6 +61,7 @@ import java.util.List;
         indexes = {@Index(name = "idx_name", columnList = "name")})
 public class Product extends IntegerBaseEntity {
 
+    @NotBlank
     @Column(length = 100, nullable = false)
     private String name;
 
@@ -64,12 +69,17 @@ public class Product extends IntegerBaseEntity {
     @Lob // To input long text
     private String description;
 
+    @Positive
     @Column(precision = 19, scale = 2) // 19 digits including the last 2
     private BigDecimal price;
 
+    @PastOrPresent
+    @NotNull
     @Column(name = "creation_date")
     private LocalDateTime creationDate;
 
+    @PastOrPresent
+    @NotNull
     @Column(name = "last_update_date")
     private LocalDateTime lastUpdateDate;
 

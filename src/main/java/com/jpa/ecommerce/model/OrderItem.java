@@ -1,6 +1,8 @@
 package com.jpa.ecommerce.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,6 +24,7 @@ public class OrderItem {
     @EmbeddedId
     private OrderItemId id;
 
+    @NotNull
     @MapsId("orderId")
 //    @ManyToOne(optional = false, cascade = CascadeType.MERGE) // For the class CascadeTypePersistTest
 //    @ManyToOne(optional = false, cascade = CascadeType.REMOVE) // For the class CascadeTypeRemoveTest
@@ -29,13 +32,19 @@ public class OrderItem {
     @JoinColumn(name = "order_id", foreignKey = @ForeignKey(name = "fk_order_item_order"))
     private Order order;
 
+    @NotNull
     @MapsId("productId")
     @ManyToOne
     @JoinColumn(name = "product_id", foreignKey = @ForeignKey(name = "fk_order_item_product"))
     private Product product;
 
-    @Column(name = "product_price")
+    @Positive
+    @NotNull
+    @Column(name = "product_price", nullable = false)
     private BigDecimal productPrice;
 
+    @Positive
+    @NotNull
+    @Column(nullable = false)
     private Integer quantity;
 }

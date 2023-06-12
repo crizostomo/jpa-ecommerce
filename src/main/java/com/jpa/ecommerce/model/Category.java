@@ -1,6 +1,7 @@
 package com.jpa.ecommerce.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,6 +14,8 @@ import java.util.List;
         uniqueConstraints = {@UniqueConstraint(name = "unq_name", columnNames = {"name"})})
 public class Category extends IntegerBaseEntity {
 
+    @NotBlank
+    @Column(length = 100, nullable = false)
     private String name;
 
     @ManyToOne
