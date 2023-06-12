@@ -9,6 +9,8 @@
         <mapping-file>META-INF/searches/product.xml</mapping-file>
         <mapping-file>META-INF/searches/category.xml</mapping-file>
 
+        <validation-mode>CALLBACK</validation-mode> <!-- Used for Bean Validation | hibernate-validator-->
+
         <properties>
             <property name="javax.persistence.jdbc.url"
                       value="jdbc:mysql://localhost/jpa_ecommerce?createDatabaseIfNotExist=true&amp;useTimezone=true&amp;serverTimezone=UTC"/>
