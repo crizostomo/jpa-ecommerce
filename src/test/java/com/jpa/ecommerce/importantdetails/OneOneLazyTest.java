@@ -9,7 +9,7 @@ import java.util.List;
 
 public class OneOneLazyTest extends EntityManagerTest {
 
-    @Test
+//    @Test // To execute this test, it is needed to uncomment some lines in Order.class (this test has some inconsistencies though)
     public void showProblem() {
         System.out.println("SEARCHING AN ORDER:");
         Order order = entityManager.find(Order.class, 1);
