@@ -1,6 +1,7 @@
 package com.jpa.ecommerce.model;
 
 import com.jpa.ecommerce.dto.ProductDTO;
+import com.jpa.ecommerce.model.converter.BooleanToYesNoConverter;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -112,4 +113,9 @@ public class Product extends IntegerBaseEntity {
     @Column(columnDefinition = "varchar(12000)")
     @Lob // Lob = Large Object
     private byte[] photo;
+
+    @Convert(converter = BooleanToYesNoConverter.class)
+    @NotNull
+    @Column(length = 3, nullable = false)
+    private Boolean active = Boolean.FALSE;
 }
