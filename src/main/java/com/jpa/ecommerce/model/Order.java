@@ -6,9 +6,14 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Positive;
+import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.LazyToOne;
+import org.hibernate.annotations.LazyToOneOption;
+import org.hibernate.engine.spi.PersistentAttributeInterceptable;
+import org.hibernate.engine.spi.PersistentAttributeInterceptor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -19,7 +24,9 @@ import java.util.List;
 @Entity
 @EntityListeners({CreateInvoiceListener.class})
 @Table(name = "`order`")
-public class Order extends IntegerBaseEntity {
+public class Order extends IntegerBaseEntity
+//        implements PersistentAttributeInterceptable
+{
 
     @NotNull
     @ManyToOne(optional = false)
@@ -48,7 +55,10 @@ public class Order extends IntegerBaseEntity {
     @Column(name = "ending_date")
     private LocalDateTime endingDate;
 
-    @OneToOne(mappedBy = "order")
+//    @LazyToOne(LazyToOneOption.NO_PROXY)
+    @OneToOne(mappedBy = "order"
+//            , fetch = FetchType.LAZY
+    )
     private Invoice invoice;
 
     @NotNull
@@ -61,11 +71,64 @@ public class Order extends IntegerBaseEntity {
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
-    @OneToOne(mappedBy = "order")
+//    @LazyToOne(LazyToOneOption.NO_PROXY)
+    @OneToOne(mappedBy = "order"
+//            , fetch = FetchType.LAZY
+    )
     private Payment payment;
 
     @Embedded
     private DeliveryAddress deliveryAddress;
+
+    /**
+     * Added the methods getInvoice, setInvoice, getPayment and setPayment just to show a feature about the test class
+     * "OneOneLazyTest"
+     * @return
+     */
+//    public Invoice getInvoice() {
+//        if (this.persistentAttributeInterceptor != null) {
+//            return (Invoice) persistentAttributeInterceptor.readObject(this, "invoice", this.invoice);
+//        }
+//        return this.invoice;
+//    }
+//
+//    public void setInvoice(Invoice invoice) {
+//        if (this.persistentAttributeInterceptor != null) {
+//            this.invoice = (Invoice) persistentAttributeInterceptor.writeObject(this, "invoice", this.invoice, invoice);
+//        } else {
+//            this.invoice = invoice;
+//        }
+//    }
+//
+//    public Payment getPayment() {
+//        if (this.persistentAttributeInterceptor != null) {
+//            return (Payment) persistentAttributeInterceptor.readObject(this, "payment", this.payment);
+//        }
+//        return this.payment;
+//    }
+//
+//    public void setPayment(Payment payment) {
+//        if (this.persistentAttributeInterceptor != null) {
+//            this.payment = (Payment) persistentAttributeInterceptor.writeObject(this, "payment", this.payment, payment);
+//        } else {
+//            this.payment = payment;
+//        }
+//    }
+//
+//    @Transient
+//    @Setter(AccessLevel.NONE)
+//    @Getter(AccessLevel.NONE)
+//    private PersistentAttributeInterceptor persistentAttributeInterceptor;
+//
+//    @Override
+//    public PersistentAttributeInterceptor $$_hibernate_getInterceptor() {
+//        return this.persistentAttributeInterceptor;
+//    }
+//
+//    @Override
+//    public void $$_hibernate_setInterceptor(PersistentAttributeInterceptor persistentAttributeInterceptor) {
+//        this.persistentAttributeInterceptor = persistentAttributeInterceptor;
+//    }
 
     @PrePersist
     public void onPersisting() {
