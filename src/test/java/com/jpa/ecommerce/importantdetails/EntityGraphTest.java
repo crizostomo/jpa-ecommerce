@@ -18,9 +18,9 @@ public class EntityGraphTest extends EntityManagerTest {
     //    @Test // To execute this test, it is needed to uncomment some lines in Order.class (this test has some inconsistencies though)
     public void searchEssentialOrderAttributes02() {
         EntityGraph<Order> entityGraph = entityManager.createEntityGraph(Order.class);
-        entityGraph.addAttributeNodes("creationDate", "status", "total");
+        entityGraph.addAttributeNodes("creationDate", "status", "total"); // We can use Metamodels too, e.g., Order_.creationDate
 
-        Subgraph<Client> clientSubgraph = entityGraph.addSubgraph("client", Client.class);
+        Subgraph<Client> clientSubgraph = entityGraph.addSubgraph("client", Client.class); // Here, we wouldn't need to use Client.class
         clientSubgraph.addAttributeNodes("name", "cpf");
 
         TypedQuery<Order> typedQuery = entityManager.createQuery("select o from Order o", Order.class);
