@@ -9,6 +9,8 @@
         <mapping-file>META-INF/searches/product.xml</mapping-file>
         <mapping-file>META-INF/searches/category.xml</mapping-file>
 
+        <shared-cache-mode>ALL</shared-cache-mode>
+
         <validation-mode>CALLBACK</validation-mode> <!-- Used for Bean Validation | hibernate-validator-->
 
         <properties>
@@ -21,7 +23,7 @@
             <property name="hibernate.hikari.maximumPoolSize" value="16"/>
             <property name="hibernate.connection.provider_class" value="org.hibernate.hikaricp.internal.HikariCPConnectionProvider"/>
 
-            <property name="javax.persistence.sharedCache.mode" value="ALL"/>
+            <!--<property name="javax.persistence.sharedCache.mode" value="ALL"/>-->
 
 <!--**-->
             <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
