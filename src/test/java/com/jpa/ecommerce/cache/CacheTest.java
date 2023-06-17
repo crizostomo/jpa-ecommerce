@@ -1,14 +1,14 @@
 package com.jpa.ecommerce.cache;
 
 import com.jpa.ecommerce.model.Order;
-import jakarta.persistence.Cache;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
+import jakarta.persistence.*;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class CacheTest {
 
@@ -93,5 +93,30 @@ public class CacheTest {
                 .getResultList();
 
         Assert.assertTrue(cache.contains(Order.class, 1));
+    }
+
+    @Test
+    public void controllingCacheDynamically() {
+        Cache cache = entityManagerFactory.getCache();
+
+        System.out.println("Searching all orders....................... ");
+        EntityManager entityManager1 = entityManagerFactory.createEntityManager();
+//        entityManager1.setProperty("jakarta.persistence.cache.storeMode", CacheStoreMode.BYPASS);
+        entityManager1.createQuery("select o from Order o", Order.class)
+                .setHint("jakarta.persistence.cache.storeMode", CacheStoreMode.BYPASS) // BYPASS - Bring the retrieved value and do not input in the cache
+                .getResultList();
+
+        System.out.println("Searching order with ID = 2....................... ");
+        EntityManager entityManager2 = entityManagerFactory.createEntityManager();
+        Map<String, Object> properties = new HashMap<>();
+//        properties.put("jakarta.persistence.cache.storeMode", CacheStoreMode.BYPASS);
+//        properties.put("jakarta.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
+        entityManager2.find(Order.class, 2, properties);
+
+        System.out.println("Searching all orders AGAIN....................... ");
+        EntityManager entityManager3 = entityManagerFactory.createEntityManager();
+        entityManager3.createQuery("select o from Order o", Order.class)
+                .setHint("jakarta.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS)
+                .getResultList();
     }
 }
