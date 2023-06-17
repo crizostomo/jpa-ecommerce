@@ -21,6 +21,29 @@ import java.util.List;
 
 @Getter
 @Setter
+@NamedEntityGraphs({ // Equivalent to configuring in the EntityGraphTest
+        @NamedEntityGraph(
+                name = "Order.essentialData",
+                attributeNodes = {
+                        @NamedAttributeNode("creationDate"),
+                        @NamedAttributeNode("status"),
+                        @NamedAttributeNode("total"),
+                        @NamedAttributeNode(
+                                value = "client",
+                                subgraph = "cli"
+                        )
+                },
+                subgraphs = {
+                        @NamedSubgraph(
+                                name = "cli",
+                                attributeNodes = {
+                                        @NamedAttributeNode("name"),
+                                        @NamedAttributeNode("cpf")
+                                }
+                        )
+                }
+        )
+})
 @Entity
 @EntityListeners({CreateInvoiceListener.class})
 @Table(name = "`order`")

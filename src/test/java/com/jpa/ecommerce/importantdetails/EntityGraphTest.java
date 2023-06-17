@@ -16,6 +16,18 @@ import java.util.Map;
 public class EntityGraphTest extends EntityManagerTest {
 
     //    @Test // To execute this test, it is needed to uncomment some lines in Order.class (this test has some inconsistencies though)
+    public void searchEssentialOrderAttributesByUsingAnnotationNamedEntityGraph() { //See annotation in the Order.Class
+        EntityGraph<?> entityGraph = entityManager.createEntityGraph("Order.essentialData");
+
+//        entityGraph.addSubgraph("payment").addAttributeNodes("status");
+
+        TypedQuery<Order> typedQuery = entityManager.createQuery("select o from Order o", Order.class);
+        typedQuery.setHint("jakarta.persistence.fetchgraph", entityGraph);
+        List<Order> list = typedQuery.getResultList();
+        Assert.assertFalse(list.isEmpty());
+    }
+
+    //    @Test // To execute this test, it is needed to uncomment some lines in Order.class (this test has some inconsistencies though)
     public void searchEssentialOrderAttributes02() {
         EntityGraph<Order> entityGraph = entityManager.createEntityGraph(Order.class);
         entityGraph.addAttributeNodes("creationDate", "status", "total"); // We can use Metamodels too, e.g., Order_.creationDate
