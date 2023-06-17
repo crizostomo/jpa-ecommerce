@@ -34,4 +34,17 @@ public class CacheTest {
         System.out.println("Searching from instance 2: ");
         entityManager2.find(Order.class, 2);
     }
+
+    @Test
+    public void addOrdersInTheCache() {
+        EntityManager entityManager1 = entityManagerFactory.createEntityManager();
+        EntityManager entityManager2 = entityManagerFactory.createEntityManager();
+
+        System.out.println("Searching from instance 1: ");
+        entityManager1.createQuery("select o from Order o", Order.class)
+                .getResultList();
+
+        System.out.println("Searching from instance 2: ");
+        entityManager2.find(Order.class, 2);
+    }
 }
