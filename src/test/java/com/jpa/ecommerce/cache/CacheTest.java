@@ -6,6 +6,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import org.junit.AfterClass;
+import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -51,7 +52,7 @@ public class CacheTest {
 
     @Test
     public void removeFromCache() {
-        Cache cache = entityManagerFactory.getCache()
+        Cache cache = entityManagerFactory.getCache();
         EntityManager entityManager1 = entityManagerFactory.createEntityManager();
         EntityManager entityManager2 = entityManagerFactory.createEntityManager();
 
@@ -67,5 +68,18 @@ public class CacheTest {
         System.out.println("Searching from instance 2: ");
         entityManager2.find(Order.class, 1);
         entityManager2.find(Order.class, 2);
+    }
+
+    @Test
+    public void verifyIfSmtIsInCache() {
+        Cache cache = entityManagerFactory.getCache();
+        EntityManager entityManager1 = entityManagerFactory.createEntityManager();
+
+        System.out.println("Searching from instance 1: ");
+        entityManager1.createQuery("select o from Order o", Order.class)
+                .getResultList();
+
+        Assert.assertTrue(cache.contains(Order.class, 1));
+        Assert.assertTrue(cache.contains(Order.class, 2));
     }
 }
