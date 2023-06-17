@@ -35,6 +35,9 @@ public class CacheTest {
 
         System.out.println("Searching from instance 2: ");
         entityManager2.find(Order.class, 2);
+
+        entityManager1.close();
+        entityManager2.close();
     }
 
     @Test
@@ -48,6 +51,9 @@ public class CacheTest {
 
         System.out.println("Searching from instance 2: ");
         entityManager2.find(Order.class, 2);
+
+        entityManager1.close();
+        entityManager2.close();
     }
 
     @Test
@@ -68,6 +74,9 @@ public class CacheTest {
         System.out.println("Searching from instance 2: ");
         entityManager2.find(Order.class, 1);
         entityManager2.find(Order.class, 2);
+
+        entityManager1.close();
+        entityManager2.close();
     }
 
     @Test
@@ -81,6 +90,8 @@ public class CacheTest {
 
         Assert.assertTrue(cache.contains(Order.class, 1));
         Assert.assertTrue(cache.contains(Order.class, 2));
+
+        entityManager1.close();
     }
 
     @Test
@@ -93,6 +104,8 @@ public class CacheTest {
                 .getResultList();
 
         Assert.assertTrue(cache.contains(Order.class, 1));
+
+        entityManager1.close();
     }
 
     @Test
@@ -118,6 +131,10 @@ public class CacheTest {
         entityManager3.createQuery("select o from Order o", Order.class)
                 .setHint("jakarta.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS)
                 .getResultList();
+
+        entityManager1.close();
+        entityManager2.close();
+        entityManager3.close();
     }
 
     private static void wait (int seconds) {
@@ -150,5 +167,8 @@ public class CacheTest {
 
         wait(3);
         Assert.assertFalse(cache.contains(Order.class, 2));
+
+        entityManager1.close();
+        entityManager2.close();
     }
 }
