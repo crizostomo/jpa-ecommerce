@@ -21,6 +21,9 @@ import java.math.BigDecimal;
 @Table(name = "order_item")
 public class OrderItem {
 
+    @Version
+    private Integer version;
+
     @EmbeddedId
     private OrderItemId id;
 
