@@ -1,28 +1,14 @@
 package com.jpa.ecommerce;
 
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
-import org.junit.*;
+import org.junit.After;
+import org.junit.Before;
 
-public class EntityManagerTest {
-
-    protected static EntityManagerFactory entityManagerFactory;
+public class EntityManagerTest extends EntityManagerFactoryTest{
 
     protected EntityManager entityManager;
 
-    @BeforeClass
-    public static void setUpBeforeClass() {
-        entityManagerFactory = Persistence
-                .createEntityManagerFactory("Ecommerce-PU");
-    }
-
-    @AfterClass
-    public static void tearDownAfterClass() {
-        entityManagerFactory.close();
-    }
-
-    @Before
+        @Before
     public void setUp() {
         entityManager = entityManagerFactory.createEntityManager();
     }
