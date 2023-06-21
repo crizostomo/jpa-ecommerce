@@ -14,20 +14,22 @@ public class ExecuteDDL {
 
         properties.put("javax.persistence.jdbc.url", "jdbc:mysql://localhost/jpa_store_ecommerce?createDatabaseIfNotExist=true&useTimezone=true&serverTimezone=UTC");
 
-        properties.put("javax.persistence.schema-generation.database.action",
+        properties.put("jakarta.persistence.schema-generation.database.action",
                 "drop-and-create");
 
-        properties.put("javax.persistence.schema-generation.create-source",
-                "metadata-then-script");
-        properties.put("javax.persistence.schema-generation.drop-source",
+        properties.put("jakarta.persistence.schema-generation.create-source",
                 "metadata-then-script");
 
-        properties.put("javax.persistence.schema-generation.create-script-source",
+        properties.put("jakarta.persistence.schema-generation.drop-source",
+                "metadata-then-script");
+
+        properties.put("jakarta.persistence.schema-generation.create-script-source",
                 "META-INF/database/script-create.sql");
-        properties.put("javax.persistence.schema-generation.drop-script-source",
+
+        properties.put("jakarta.persistence.schema-generation.drop-script-source",
                 "META-INF/database/script-remove.sql");
 
-        properties.put("javax.persistence.sql-load-script-source",
+        properties.put("jakarta.persistence.sql-load-script-source",
                 "META-INF/database/initial-data.sql");
 
         EntityManagerFactory entityManagerFactory = Persistence
