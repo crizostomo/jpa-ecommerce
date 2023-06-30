@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="pt-br"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.thymeleaf.org"
+      layout:decorator="~{layout/standard}">
+<head>
+    <title>Products List</title>
+</head>
+<body>
+
+<th:block layout:fragment="content">
+    <section class="my-4">
+        <div class="container">
+            <h2>Products List</h2>
+        </div>
+    </section>
+
+    <section>
+        <div class="container">
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead class="thead-light text-center">
+                    <tr>
+                        <th>Code</th>
+
+                        <th>Name</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr th:each="product: ${products}">
+                        <td class="text-center w-25"
+                            th:text="${product.id}">1</td>
+
+                        <td>
+                            <a href="javascript:;" th:text="${product.name}"
+                               th:href="@{/products/{id}/edit(id=${product.id})}">product name</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+</th:block>
+
+</body>
+</html>
